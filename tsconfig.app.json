@@ -21,7 +21,20 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@refactor/*": ["src/refactoring/*"],
+      "@atoms/*": ["src/refactoring/components/atoms/*"],
+      "@molecules/*": ["src/refactoring/components/molecules/*"],
+      "@templates/*": ["src/refactoring/components/templates/*"],
+      "@pages/*": ["src/refactoring/components/pages/*"],
+
+      "@provider/*": ["src/refactoring/provider/*"],
+      "@hooks/*": ["src/refactoring/hooks/*"],
+      "@utils/*": ["src/refactoring/utils/*"]
+    }
   },
   "include": ["src"]
 }

@@ -72,7 +72,7 @@
 ## FLOW
 
 App
-  Contetx Api { admin: Boolean }
+  Contetx Api { isAdmin: Boolean, toggleAdmin }
 
 Navigation
   페이지에 따라 버튼 글 변화 [ 관리자 페이지로 / 장바구니 페이지로 ]
