@@ -7,19 +7,51 @@ export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
 
-  const addToCart = (product: Product) => {};
+  const addToCart = (newProduct: Product) => {
+    const findInCart = cart.find(({ product: { id } }) => id === newProduct.id);
 
-  const removeFromCart = (productId: string) => {};
+    if (findInCart) {
+      setCart((prevCart) => {
+        const cartMap = new Map();
 
-  const updateQuantity = (productId: string, newQuantity: number) => {};
+        prevCart.forEach(({ product, quantity }) => {
+          const hasProduct = newProduct.id === product.id;
+          const changeQty = hasProduct ? quantity + 1 : quantity;
 
-  const applyCoupon = (coupon: Coupon) => {};
+          cartMap.set(product.id, { product, quantity: changeQty });
+        });
 
-  const calculateTotal = () => ({
-    totalBeforeDiscount: 0,
-    totalAfterDiscount: 0,
-    totalDiscount: 0,
-  })
+        return Array.from(cartMap.values());
+      });
+    } else {
+      // 장바구니에 없는 경우
+      setCart((prevCart) => [
+        ...prevCart,
+        { product: newProduct, quantity: 1 },
+      ]);
+    }
+  };
+
+  const removeFromCart = (productId: string) => {
+    setCart((prevCart) => {
+      const cartMap = new Map();
+      prevCart.forEach((item) => {
+        if (item.product.id !== productId) cartMap.set(item.product.id, item);
+      });
+      return Array.from(cartMap.values());
+    });
+  };
+
+  const updateQuantity = (productId: string, newQuantity: number) => {
+    const updateCart = updateCartItemQuantity(cart, productId, newQuantity);
+    setCart(updateCart);
+  };
+
+  const applyCoupon = (coupon: Coupon) => setSelectedCoupon(coupon);
+
+  const calculateTotal = () => {
+    return calculateCartTotal(cart, selectedCoupon);
+  };
 
   return {
     cart,
