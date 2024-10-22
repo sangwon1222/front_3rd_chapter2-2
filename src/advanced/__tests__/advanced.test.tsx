@@ -1,13 +1,23 @@
 import { useState } from 'react';
 import { describe, expect, test } from 'vitest';
-import { act, fireEvent, render, screen, within } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  renderHook,
+  screen,
+  within,
+} from '@testing-library/react';
 import { CartPage } from '../../refactoring/components/CartPage';
 import { AdminPage } from '../../refactoring/components/AdminPage';
-import { CartItem, Coupon, Product } from '../../types';
+import { Coupon, Product } from '../../types';
 import {
-  applyCoupon,
-  memoizedGetMaxApplicableDiscount,
-} from '@refactor/hooks/utils/cartUtils';
+  formatCouponLabel,
+  formatCouponOptions,
+  getApplyCouponPrice,
+} from '@refactor/hooks/utils/couponUtil';
+import { convertPercentage } from '@refactor/hooks/utils/discountUtil';
+import { useNewProductForm } from '@refactor/hooks/useNewProductForm';
 
 const mockProducts: Product[] = [
   {
@@ -265,38 +275,127 @@ describe('advanced > ', () => {
     });
   });
 
-  describe('hooks, util 함수 테스트', () => {
-    const testProduct: Product = {
-      id: '1',
-      name: 'Test Product',
-      price: 100,
-      stock: 10,
-      discounts: [
-        { quantity: 2, rate: 0.1 },
-        { quantity: 5, rate: 0.2 },
-      ],
-    };
-
-    test('[utils] applyCoupon - 쿠폰 정보에 맞는 계산 적용 함수 ', () => {
+  describe('[utils] 함수 테스트', () => {
+    test('formatCouponOptions - 콤보박스 생성', () => {
       // 5000원 할인 쿠폰일 경우
-      const amountTest = applyCoupon(10000, mockCoupons[0]);
-      expect(amountTest).toBe(5000);
-
-      // 10% 할인
-      const percentageTest = applyCoupon(10000, mockCoupons[1]);
-      expect(percentageTest).toBe(9000);
+      const options = formatCouponOptions([
+        {
+          name: 'CODE1',
+          code: 'CODE1',
+          discountType: 'amount',
+          discountValue: 1000,
+        },
+        {
+          name: 'CODE2',
+          code: 'CODE2',
+          discountType: 'percentage',
+          discountValue: 10,
+        },
+      ]);
+      expect(options).toStrictEqual([
+        { label: '쿠폰 선택', value: -1 },
+        { label: 'CODE1 - 1000원', value: 0 },
+        { label: 'CODE2 - 10%', value: 1 },
+      ]);
     });
 
-    test('[utils] memoizedGetMaxApplicableDiscount - 할인적용 안될 때, 0반환', () => {
-      // 할인이 적용되지 않으면 0을 반환해야 합니다.
-      const item: CartItem = { product: testProduct, quantity: 1 };
-      expect(memoizedGetMaxApplicableDiscount(item)).toBe(0);
+    test('formatCouponLabel - 할인 종류에 따라 금액 또는 비율을 올바르게 형식화한다', () => {
+      expect(formatCouponLabel('amount', 5000)).toBe('5000원');
+      expect(formatCouponLabel('percentage', 10)).toBe('10%');
     });
 
-    test('[utils] memoizedGetMaxApplicableDiscount - 적용 가능한 가장 높은 할인율 반환', () => {
-      // 적용 가능한 가장 높은 할인율을 반환해야 합니다.
-      const item: CartItem = { product: testProduct, quantity: 5 };
-      expect(memoizedGetMaxApplicableDiscount(item)).toBe(0.2);
+    test('getApplyCouponPrice - 할인 종류에 따라 할인된 금액을 반환한다.', () => {
+      // 10000 - 5000 = 5000
+      expect(
+        getApplyCouponPrice(10000, {
+          name: 'COUPON1',
+          code: 'COUPON1',
+          discountType: 'amount',
+          discountValue: 5000,
+        })
+      ).toBe(5000);
+
+      // 10000 * ( 1 - 0.1 ) = 9000
+      expect(
+        getApplyCouponPrice(10000, {
+          name: 'COUPON2',
+          code: 'COUPON2',
+          discountType: 'percentage',
+          discountValue: 10,
+        })
+      ).toBe(9000);
+    });
+
+    test('convertPercentage - 소수점을 퍼센티지로 변환해준다.', () => {
+      expect(convertPercentage(0.2)).toBe('20');
+      expect(convertPercentage(0.75)).toBe('75');
+    });
+  });
+
+  describe('[hooks] useNewProductForm', () => {
+    const initialNewProductForm = {
+      name: '',
+      price: 0,
+      stock: 0,
+      discounts: [],
+    };
+    test('[제품 추가 Form]: 초기값 설정 기능', () => {
+      const { result } = renderHook(() =>
+        useNewProductForm({ ...initialNewProductForm })
+      );
+      // 초기화 값 확인
+      expect(result.current.newProductForm.name).toBe('');
+      expect(result.current.newProductForm.price).toBe(0);
+      expect(result.current.newProductForm.stock).toBe(0);
+    });
+
+    test('[제품 추가 Form]: 값 업데이트 기능', () => {
+      const { result } = renderHook(() =>
+        useNewProductForm({ ...initialNewProductForm })
+      );
+      expect(result.current.newProductForm.name).toBe('');
+      expect(result.current.newProductForm.price).toBe(0);
+      expect(result.current.newProductForm.stock).toBe(0);
+
+      // name 업데이트 확인
+      act(() => result.current.updateNewProductForm('name', '제품1'));
+      expect(result.current.newProductForm.name).toBe('제품1');
+
+      // price 업데이트 확인
+      act(() => result.current.updateNewProductForm('price', 10000));
+      expect(result.current.newProductForm.price).toBe(10000);
+
+      // stock 업데이트 확인
+      act(() => result.current.updateNewProductForm('stock', 20));
+      expect(result.current.newProductForm.stock).toBe(20);
+    });
+
+    test('[제품 추가 Form]: 리셋 기능', () => {
+      const { result } = renderHook(() =>
+        useNewProductForm({ ...initialNewProductForm })
+      );
+      expect(result.current.newProductForm.name).toBe('');
+      expect(result.current.newProductForm.price).toBe(0);
+      expect(result.current.newProductForm.stock).toBe(0);
+
+      // name 업데이트 확인
+      act(() => result.current.updateNewProductForm('name', '제품1'));
+      expect(result.current.newProductForm.name).toBe('제품1');
+
+      // price 업데이트 확인
+      act(() => result.current.updateNewProductForm('price', 10000));
+      expect(result.current.newProductForm.price).toBe(10000);
+
+      // stock 업데이트 확인
+      act(() => result.current.updateNewProductForm('stock', 20));
+      expect(result.current.newProductForm.stock).toBe(20);
+
+      // 값 초기화 확인
+      act(() => result.current.resetNewProductForm());
+      expect(result.current.newProductForm.name).toBe('');
+      expect(result.current.newProductForm.price).toBe(0);
+      expect(result.current.newProductForm.stock).toBe(0);
+      expect(result.current.newProductForm.discounts).toEqual([]);
     });
   });
 });
