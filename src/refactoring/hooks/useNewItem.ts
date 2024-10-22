@@ -1,11 +1,9 @@
 import { initItem } from '@refactor/data/item';
 import { Product } from 'src/types';
 
-const useNewItem = () => {
+export const useNewItem = () => {
   let data: Omit<Product, 'id'>;
   data = initItem;
-
-  const getNewItem = () => data;
 
   const updateNewItem = (
     key: keyof Omit<Product, 'id'>,
@@ -20,7 +18,5 @@ const useNewItem = () => {
 
   const resetNewItem = () => (data = initItem);
 
-  return { getNewItem, setNewItem, updateNewItem, resetNewItem };
+  return { newProduct: data, setNewItem, updateNewItem, resetNewItem };
 };
-
-export default useNewItem();

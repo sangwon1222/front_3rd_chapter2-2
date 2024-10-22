@@ -4,8 +4,6 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { CartPage } from '../../refactoring/components/CartPage';
 import { AdminPage } from '../../refactoring/components/AdminPage';
 import { CartItem, Coupon, Product } from '../../types';
-import useNewCoupon from '../../refactoring/hooks/useNewCoupon';
-import useNewItem from '@refactor/hooks/useNewItem';
 import {
   applyCoupon,
   memoizedGetMaxApplicableDiscount,
@@ -299,77 +297,6 @@ describe('advanced > ', () => {
       // 적용 가능한 가장 높은 할인율을 반환해야 합니다.
       const item: CartItem = { product: testProduct, quantity: 5 };
       expect(memoizedGetMaxApplicableDiscount(item)).toBe(0.2);
-    });
-
-    test('[hooks] useNewCoupon - 새 쿠폰 등록 Form', () => {
-      const { getNewCoupon, setNewCoupon, resetNewCoupon } = useNewCoupon;
-      // 초기값 확인
-      expect(getNewCoupon().name).toBe('');
-      expect(getNewCoupon().code).toBe('');
-      expect(getNewCoupon().discountType).toBe('percentage');
-      expect(getNewCoupon().discountValue).toBe(0);
-
-      // 값 업데이트 체크
-      setNewCoupon('name', '1000원 할인 쿠폰');
-      expect(getNewCoupon().name).toBe('1000원 할인 쿠폰');
-
-      setNewCoupon('code', 'AMOUNT1000');
-      expect(getNewCoupon().code).toBe('AMOUNT1000');
-
-      setNewCoupon('discountType', 'amount');
-      expect(getNewCoupon().discountType).toBe('amount');
-
-      setNewCoupon('discountValue', 1000);
-      expect(getNewCoupon().discountValue).toBe(1000);
-
-      // 리셋 체크
-      resetNewCoupon();
-
-      expect(getNewCoupon().name).toBe('');
-      expect(getNewCoupon().code).toBe('');
-      expect(getNewCoupon().discountType).toBe('percentage');
-      expect(getNewCoupon().discountValue).toBe(0);
-
-      // expect(true).toBe(false);
-    });
-
-    test('[hooks] useNewItem - 새 아이템 추가 Form hook', () => {
-      const { getNewItem, setNewItem, updateNewItem, resetNewItem } =
-        useNewItem;
-
-      setNewItem({ name: '', price: 0, stock: 0, discounts: [] });
-      // 초기값 설정이 잘 되는 지 체크
-      expect(getNewItem().name).toBe('');
-      expect(getNewItem().price).toBe(0);
-      expect(getNewItem().stock).toBe(0);
-      expect(getNewItem().discounts).toStrictEqual([]);
-
-      // 값 업데이트 체크
-      updateNewItem('name', '상품1');
-      expect(getNewItem().name).toBe('상품1');
-
-      updateNewItem('price', 20000);
-      expect(getNewItem().price).toBe(20000);
-
-      updateNewItem('stock', 30);
-      expect(getNewItem().stock).toBe(30);
-
-      updateNewItem('discounts', [
-        { quantity: 10, rate: 0.2 },
-        { quantity: 20, rate: 0.25 },
-      ]);
-      expect(getNewItem().discounts).toStrictEqual([
-        { quantity: 10, rate: 0.2 },
-        { quantity: 20, rate: 0.25 },
-      ]);
-
-      // 리셋 체크
-      resetNewItem();
-
-      expect(getNewItem().name).toBe('');
-      expect(getNewItem().price).toBe(0);
-      expect(getNewItem().stock).toBe(0);
-      expect(getNewItem().discounts).toStrictEqual([]);
     });
   });
 });

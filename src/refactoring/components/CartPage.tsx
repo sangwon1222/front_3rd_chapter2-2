@@ -24,14 +24,25 @@ export const CartPage: React.FC<PropsType> = ({ products, coupons }) => {
   const { totalBeforeDiscount, totalAfterDiscount, totalDiscount } =
     calculateTotal();
 
+  const couponOptions = coupons.map((coupon, index) => {
+    const { name, discountType, discountValue } = coupon;
+
+    const isAmount = discountType === 'amount';
+
+    // 할인 정보 형식화
+    const formattedDiscount = isAmount
+      ? `${discountValue}원` // 금액 할인
+      : `${discountValue}%`; // 비율 할인
+
+    return {
+      label: `${name} - ${formattedDiscount}`, // 쿠폰 이름과 할인 정보 결합
+      value: index, // 쿠폰 인덱스를 value로 사용
+    };
+  });
+
   const options = [
-    { label: '쿠폰 선택', value: -1 },
-    ...coupons.map(({ name, discountType, discountValue }, index) => ({
-      label: `${name} - ${
-        discountType === 'amount' ? `${discountValue}원` : `${discountValue}%`
-      } `,
-      value: index,
-    })),
+    { label: '쿠폰 선택', value: -1 }, // 기본 옵션
+    ...couponOptions,
   ];
 
   return (

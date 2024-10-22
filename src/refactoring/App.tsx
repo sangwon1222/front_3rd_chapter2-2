@@ -7,6 +7,7 @@ import { CartPage } from '@refactor/components/CartPage';
 import Nav from '@templates/Nav';
 import { Coupon, Product } from 'src/types';
 import { useCoupons, useProducts } from './hooks';
+import { useNewItem } from './hooks/useNewItem';
 
 const App = () => {
   const { isAdmin } = useAdminContext();

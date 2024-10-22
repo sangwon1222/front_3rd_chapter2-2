@@ -1,30 +1,28 @@
 import AddItemForm from '@molecules/admin/AddItemForm';
-import useNewItem from '@hooks/useNewItem';
 import { useState } from 'react';
 import { Product } from 'src/types';
 
-type PropsType = { onProductAdd: (item: Product) => void };
+type PropsType = {
+  onProductAdd: (item: Product) => void;
+};
 
 const AddItem: React.FC<PropsType> = ({ onProductAdd }) => {
   const [isEditing, setEditMode] = useState<boolean>(false);
-  const { getNewItem, resetNewItem } = useNewItem;
 
-  const handleAddNewItem = () => {
-    const data = getNewItem();
-    onProductAdd({ id: data.name, ...data });
+  const handleAddNewItem = ({
+    name,
+    price,
+    stock,
+  }: Omit<Product, 'id' | 'discounts'>) => {
+    onProductAdd({ id: name, name, price, stock, discounts: [] });
 
-    resetNewItem();
     setEditMode(false);
-  };
-
-  const setEditItemMode = () => {
-    setEditMode((prev) => !prev);
   };
 
   return (
     <>
       <button
-        onClick={() => setEditItemMode()}
+        onClick={() => setEditMode((prev) => !prev)}
         className="bg-green-500 text-white px-4 py-2 rounded mb-4 hover:bg-green-600"
       >
         {isEditing ? '취소' : '새 상품 추가'}

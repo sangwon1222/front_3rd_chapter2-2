@@ -3,7 +3,7 @@ import {
   getRemainingStock,
 } from '@refactor/hooks/utils/cartUtils';
 import { useEffect, useState } from 'react';
-import { Product } from 'src/types';
+import { CartItem, Product } from 'src/types';
 
 type PropsType = {
   item: Product;

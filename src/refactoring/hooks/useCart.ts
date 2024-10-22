@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { CartItem, Coupon, Product } from '../../types';
 import { calculateCartTotal, updateCartItemQuantity } from './utils/cartUtils';
+import { initCoupon } from '@refactor/data/coupon';
 
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -47,7 +48,10 @@ export const useCart = () => {
     setCart(updateCart);
   };
 
-  const applyCoupon = (coupon: Coupon) => setSelectedCoupon(coupon);
+  const applyCoupon = (coupon: Coupon | null) => {
+    if (coupon) setSelectedCoupon(coupon);
+    else setSelectedCoupon({ ...initCoupon });
+  };
 
   const calculateTotal = () => {
     return calculateCartTotal(cart, selectedCoupon);
