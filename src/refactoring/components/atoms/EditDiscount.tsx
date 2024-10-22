@@ -1,5 +1,5 @@
 import { initDiscount } from '@refactor/data/item';
-import CustomInput from '@atoms/CustomInput';
+import { CustomInput } from '@atoms/CustomInput';
 import { useState } from 'react';
 import { Discount, Product } from 'src/types';
 
@@ -8,7 +8,10 @@ type PropsType = {
   onProductUpdate: (item: Product) => void;
 };
 
-const EditDiscount: React.FC<PropsType> = ({ product, onProductUpdate }) => {
+export const EditDiscount: React.FC<PropsType> = ({
+  product,
+  onProductUpdate,
+}) => {
   const [newDiscount, setNewDiscount] = useState<Discount>(initDiscount);
 
   // 상품 할인 정보 추가
@@ -53,5 +56,3 @@ const EditDiscount: React.FC<PropsType> = ({ product, onProductUpdate }) => {
     </div>
   );
 };
-
-export default EditDiscount;

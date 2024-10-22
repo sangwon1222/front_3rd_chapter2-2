@@ -1,4 +1,4 @@
-import AdminItemCard from '@molecules/item/AdminItemCard';
+import { AdminItemCard } from '@molecules/item/AdminItemCard';
 import { Product } from 'src/types';
 
 type PropsType = {
@@ -6,7 +6,10 @@ type PropsType = {
   onProductUpdate: (item: Product) => void;
 };
 
-const ItemList: React.FC<PropsType> = ({ products, onProductUpdate }) => {
+export const ItemList: React.FC<PropsType> = ({
+  products,
+  onProductUpdate,
+}) => {
   return (
     <>
       {products.map((item: Product, index: number) => (
@@ -22,5 +25,3 @@ const ItemList: React.FC<PropsType> = ({ products, onProductUpdate }) => {
     </>
   );
 };
-
-export default ItemList;

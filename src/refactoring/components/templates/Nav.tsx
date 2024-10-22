@@ -1,6 +1,6 @@
 import { useAdminContext } from '@provider/useAdminContext';
 
-const Nav: React.FC = () => {
+export const Nav: React.FC = () => {
   const { isAdmin, toggleAdmin } = useAdminContext();
 
   return (
@@ -17,5 +17,3 @@ const Nav: React.FC = () => {
     </nav>
   );
 };
-
-export default Nav;

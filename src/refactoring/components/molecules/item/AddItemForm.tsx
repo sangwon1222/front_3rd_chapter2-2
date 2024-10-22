@@ -1,4 +1,4 @@
-import InputWithLabel from '@atoms/InputWithLabel';
+import { InputWithLabel } from '@atoms/InputWithLabel';
 import { Product } from 'src/types';
 import { useState } from 'react';
 
@@ -6,7 +6,7 @@ type PropsType = {
   handleAddNewItem: (params: Omit<Product, 'id' | 'discounts'>) => void;
 };
 
-const AddItemForm: React.FC<PropsType> = ({ handleAddNewItem }) => {
+export const AddItemForm: React.FC<PropsType> = ({ handleAddNewItem }) => {
   const [form, setFormData] = useState({ name: '', price: 0, stock: 0 });
 
   const handleFromData = (
@@ -54,5 +54,3 @@ const AddItemForm: React.FC<PropsType> = ({ handleAddNewItem }) => {
     </div>
   );
 };
-
-export default AddItemForm;

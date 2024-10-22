@@ -2,7 +2,7 @@ import { Coupon } from 'src/types';
 
 type PropsType = { coupons: Coupon[] };
 
-const CouponList: React.FC<PropsType> = ({ coupons }) => {
+export const CouponList: React.FC<PropsType> = ({ coupons }) => {
   return (
     <>
       {coupons.map(({ name, code, discountType, discountValue }, index) => (
@@ -21,5 +21,3 @@ const CouponList: React.FC<PropsType> = ({ coupons }) => {
     </>
   );
 };
-
-export default CouponList;

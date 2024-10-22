@@ -1,4 +1,4 @@
-import AddItemForm from '@molecules/item/AddItemForm';
+import { AddItemForm } from '@molecules/item/AddItemForm';
 import { Product } from 'src/types';
 import { useState } from 'react';
 
@@ -6,7 +6,7 @@ type PropsType = {
   onProductAdd: (item: Product) => void;
 };
 
-const AddItem: React.FC<PropsType> = ({ onProductAdd }) => {
+export const AddItem: React.FC<PropsType> = ({ onProductAdd }) => {
   const [isEditing, setEditMode] = useState<boolean>(false);
 
   const handleAddNewItem = ({
@@ -37,5 +37,3 @@ const AddItem: React.FC<PropsType> = ({ onProductAdd }) => {
     </>
   );
 };
-
-export default AddItem;

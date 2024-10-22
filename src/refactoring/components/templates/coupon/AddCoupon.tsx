@@ -1,12 +1,12 @@
 import { initCoupon } from '@refactor/data/coupon';
-import CustomInput from '@atoms/CustomInput';
+import { CustomInput } from '@atoms/CustomInput';
 import { ComboBox } from '@atoms/ComboBox';
 import { Coupon } from 'src/types';
 import { useState } from 'react';
 
 type PropsType = { onCouponAdd: (coupon: Coupon) => void };
 
-const AddCoupon: React.FC<PropsType> = ({ onCouponAdd }) => {
+export const AddCoupon: React.FC<PropsType> = ({ onCouponAdd }) => {
   const [newCouponForm, setNewCouponForm] = useState<Coupon>(initCoupon);
 
   const handleForm = (key: keyof Coupon, v: string | number) => {
@@ -66,5 +66,3 @@ const AddCoupon: React.FC<PropsType> = ({ onCouponAdd }) => {
     </div>
   );
 };
-
-export default AddCoupon;

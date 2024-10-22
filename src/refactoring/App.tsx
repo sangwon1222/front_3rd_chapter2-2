@@ -6,7 +6,7 @@ import { initialProducts } from '@refactor/data/item';
 import { initCoupons } from '@refactor/data/coupon';
 import { Coupon, Product } from 'src/types';
 import { useCallback, useMemo } from 'react';
-import Nav from '@templates/Nav';
+import { Nav } from '@templates/Nav';
 
 const App = () => {
   const { isAdmin } = useAdminContext();

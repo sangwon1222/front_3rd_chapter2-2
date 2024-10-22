@@ -1,5 +1,5 @@
-import CouponManage from '@templates/CouponManage';
-import ItemManage from '@templates/ItemManage';
+import { CouponManage } from '@templates/CouponManage';
+import { ItemManage } from '@templates/ItemManage';
 import { Coupon, Product } from 'src/types';
 
 type PropsType = {

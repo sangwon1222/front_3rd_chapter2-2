@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import CustomInput from './CustomInput';
+import { CustomInput } from './CustomInput';
+import React from 'react';
 
 type Props = {
   id?: string;
@@ -11,30 +11,30 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-const InputWithLabel: React.FC<Props> = ({
-  id = '',
-  label,
-  inputValue = '',
-  type = 'text',
-  inputStyle = '',
-  labelStyle = 'block mb-1',
-  onChange,
-}) => {
-  return (
-    <>
-      <label htmlFor={id} className={labelStyle}>
-        {label}
-      </label>
+export const InputWithLabel: React.FC<Props> = React.memo(
+  ({
+    id = '',
+    label,
+    inputValue = '',
+    type = 'text',
+    inputStyle = '',
+    labelStyle = 'block mb-1',
+    onChange,
+  }) => {
+    return (
+      <>
+        <label htmlFor={id} className={labelStyle}>
+          {label}
+        </label>
 
-      <CustomInput
-        id={id}
-        type={type}
-        inputValue={inputValue}
-        onChange={(v) => onChange(v)}
-        inputStyle={inputStyle}
-      />
-    </>
-  );
-};
-
-export default React.memo(InputWithLabel);
+        <CustomInput
+          id={id}
+          type={type}
+          inputValue={inputValue}
+          onChange={(v) => onChange(v)}
+          inputStyle={inputStyle}
+        />
+      </>
+    );
+  }
+);

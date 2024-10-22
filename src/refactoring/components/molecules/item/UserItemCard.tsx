@@ -11,7 +11,11 @@ type PropsType = {
   addToCart: (newProduct: Product) => void;
 };
 
-const UserItemCard: React.FC<PropsType> = ({ item, cart, addToCart }) => {
+export const UserItemCard: React.FC<PropsType> = ({
+  item,
+  cart,
+  addToCart,
+}) => {
   const { name, price, discounts } = item;
   const [remainingStock, setRemainingStock] = useState(0);
 
@@ -61,5 +65,3 @@ const UserItemCard: React.FC<PropsType> = ({ item, cart, addToCart }) => {
     </>
   );
 };
-
-export default UserItemCard;

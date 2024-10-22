@@ -1,11 +1,14 @@
-import InputWithLabel from '@atoms/InputWithLabel';
+import { InputWithLabel } from '@atoms/InputWithLabel';
 
 type PropsType = {
   formData: { name: string; price: number; stock: number };
   updateFormData: (key: string, value: string | number) => void;
 };
 
-const UpdateItemForm: React.FC<PropsType> = ({ formData, updateFormData }) => {
+export const UpdateItemForm: React.FC<PropsType> = ({
+  formData,
+  updateFormData,
+}) => {
   return (
     <div className="flex flex-col gap-4 mt-2">
       <InputWithLabel
@@ -39,5 +42,3 @@ const UpdateItemForm: React.FC<PropsType> = ({ formData, updateFormData }) => {
     </div>
   );
 };
-
-export default UpdateItemForm;

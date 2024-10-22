@@ -1,5 +1,5 @@
-import ItemList from '@templates/item/ItemList';
-import AddItem from '@templates/item/AddItem';
+import { ItemList } from '@templates/item/ItemList';
+import { AddItem } from '@templates/item/AddItem';
 import { Product } from 'src/types';
 
 type PropsType = {
@@ -8,7 +8,7 @@ type PropsType = {
   onProductUpdate: (item: Product) => void;
 };
 
-const ItemManage: React.FC<PropsType> = ({
+export const ItemManage: React.FC<PropsType> = ({
   products,
   onProductAdd,
   onProductUpdate,
@@ -26,5 +26,3 @@ const ItemManage: React.FC<PropsType> = ({
     </div>
   );
 };
-
-export default ItemManage;

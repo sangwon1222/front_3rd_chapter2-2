@@ -1,5 +1,5 @@
-import CouponList from '@molecules/coupon/CouponList';
-import AddCoupon from '@templates/coupon/AddCoupon';
+import { CouponList } from '@molecules/coupon/CouponList';
+import { AddCoupon } from '@templates/coupon/AddCoupon';
 import { Coupon } from 'src/types';
 
 type PropsType = {
@@ -7,7 +7,7 @@ type PropsType = {
   onCouponAdd: (coupon: Coupon) => void;
 };
 
-const CouponManage: React.FC<PropsType> = ({ coupons, onCouponAdd }) => {
+export const CouponManage: React.FC<PropsType> = ({ coupons, onCouponAdd }) => {
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4">쿠폰 관리</h2>
@@ -23,5 +23,3 @@ const CouponManage: React.FC<PropsType> = ({ coupons, onCouponAdd }) => {
     </div>
   );
 };
-
-export default CouponManage;

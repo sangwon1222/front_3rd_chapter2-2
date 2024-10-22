@@ -1,4 +1,4 @@
-import EditDiscount from './EditDiscount';
+import { EditDiscount } from './EditDiscount';
 import { Product } from 'src/types';
 
 type PropsType = {
@@ -7,7 +7,7 @@ type PropsType = {
   onProductUpdate: (item: Product) => void;
 };
 
-const DiscountList: React.FC<PropsType> = ({
+export const DiscountList: React.FC<PropsType> = ({
   product,
   onProductUpdate,
   isEdit = false,
@@ -46,5 +46,3 @@ const DiscountList: React.FC<PropsType> = ({
     </div>
   );
 };
-
-export default DiscountList;

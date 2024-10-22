@@ -1,5 +1,5 @@
-import UpdateItemForm from '@molecules/item/UpdateItemForm';
-import DiscountList from '@atoms/DiscountList';
+import { UpdateItemForm } from '@molecules/item/UpdateItemForm';
+import { DiscountList } from '@atoms/DiscountList';
 import { useEffect, useState } from 'react';
 import { Product } from 'src/types';
 
@@ -8,7 +8,10 @@ type PropsType = {
   onProductUpdate: (item: Product) => void;
 };
 
-const AdminItemCard: React.FC<PropsType> = ({ item, onProductUpdate }) => {
+export const AdminItemCard: React.FC<PropsType> = ({
+  item,
+  onProductUpdate,
+}) => {
   const [openDetail, setOpenDetail] = useState<boolean>(false);
   const [isEdit, setEditMode] = useState<boolean>(false);
   const [form, setFormData] = useState<{
@@ -75,5 +78,3 @@ const AdminItemCard: React.FC<PropsType> = ({ item, onProductUpdate }) => {
     </>
   );
 };
-
-export default AdminItemCard;
