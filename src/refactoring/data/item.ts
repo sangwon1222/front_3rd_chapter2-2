@@ -1,4 +1,6 @@
-export const initialItems: [string, ItemType][] = [
+import { Discount, Product } from 'src/types';
+
+export const initialItems: [string, Product][] = [
   [
     'p1',
     {
@@ -34,7 +36,7 @@ export const initialItems: [string, ItemType][] = [
   ],
 ];
 
-export const initItem: ItemType = {
+export const initItem: Product = {
   id: '',
   name: '',
   price: 0,
@@ -42,12 +44,12 @@ export const initItem: ItemType = {
   discounts: [],
 };
 
-export const initDiscount: DiscountType = {
+export const initDiscount: Discount = {
   quantity: 0,
   rate: 0,
 };
 
-export const initialProducts: ItemType[] = [
+export const initialProducts: Product[] = [
   {
     id: 'p1',
     name: '상품1',

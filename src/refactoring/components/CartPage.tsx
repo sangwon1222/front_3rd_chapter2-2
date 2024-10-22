@@ -3,10 +3,11 @@ import { useCart } from '@refactor/hooks/useCart';
 import CartList from '@templates/cart/CartList';
 import CartTotal from '@molecules/CartTotal';
 import ComboBox from '@atoms/ComboBox';
+import { Coupon, Product } from 'src/types';
 
 type PropsType = {
-  products: ItemType[];
-  coupons: CouponType[];
+  products: Product[];
+  coupons: Coupon[];
 };
 
 export const CartPage: React.FC<PropsType> = ({ products, coupons }) => {

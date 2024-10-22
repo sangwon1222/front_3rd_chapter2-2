@@ -5,7 +5,7 @@ type PropsType = {
   handleAddNewItem: () => void;
 };
 const AddItemForm: React.FC<PropsType> = ({ handleAddNewItem }) => {
-  const { getNewItem, setNewItem } = useNewItem;
+  const { getNewItem, updateNewItem } = useNewItem;
   const { name, price, stock } = getNewItem();
 
   return (
@@ -14,7 +14,7 @@ const AddItemForm: React.FC<PropsType> = ({ handleAddNewItem }) => {
         label="상품명"
         id="itemName"
         inputValue={name}
-        onChange={(v) => setNewItem('name', v)}
+        onChange={(v) => updateNewItem('name', v)}
         inputStyle="w-full p-2 border rounded"
       />
 
@@ -23,7 +23,7 @@ const AddItemForm: React.FC<PropsType> = ({ handleAddNewItem }) => {
         id="productPrice"
         type="number"
         inputValue={price}
-        onChange={(v) => setNewItem('price', +v)}
+        onChange={(v) => updateNewItem('price', +v)}
         inputStyle="w-full p-2 border rounded"
         labelStyle="block text-sm font-medium text-gray-700"
       />
@@ -33,7 +33,7 @@ const AddItemForm: React.FC<PropsType> = ({ handleAddNewItem }) => {
         id="productStock"
         type="number"
         inputValue={stock}
-        onChange={(v) => setNewItem('stock', +v)}
+        onChange={(v) => updateNewItem('stock', +v)}
         inputStyle="w-full p-2 border rounded"
         labelStyle="block text-sm font-medium text-gray-700"
       />

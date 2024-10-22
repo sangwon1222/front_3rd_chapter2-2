@@ -1,11 +1,10 @@
-import { useItemContext } from '@provider/item/useItemContext';
 import EditDiscount from './EditDiscount';
-import { useState } from 'react';
+import { Product } from 'src/types';
 
 type PropsType = {
-  product: ItemType;
+  product: Product;
   isEdit: boolean;
-  onProductUpdate: (item: ItemType) => void;
+  onProductUpdate: (item: Product) => void;
 };
 
 const DiscountList: React.FC<PropsType> = ({

@@ -1,16 +1,15 @@
 import { useAdminContext } from '@provider/admin/useAdminContext';
 import { AdminPage } from '@refactor/components/AdminPage';
 import { initialProducts } from './data/item';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { initCoupons } from './data/coupon';
 import { CartPage } from '@refactor/components/CartPage';
 import Nav from '@templates/Nav';
-import { Product } from 'src/types';
+import { Coupon, Product } from 'src/types';
 import { useCoupons, useProducts } from './hooks';
 
 const App = () => {
   const { isAdmin } = useAdminContext();
-  // const [coupons, setCoupons] = useState<CouponType[]>(initCoupons);
   const { products, updateProduct, addProduct } = useProducts(initialProducts);
   const { coupons, addCoupon } = useCoupons(initCoupons);
 
@@ -20,12 +19,12 @@ const App = () => {
   );
 
   const handleProductAdd = useCallback(
-    (newProduct: ItemType) => addProduct(newProduct),
+    (newProduct: Product) => addProduct(newProduct),
     [products]
   );
 
   const handleCouponAdd = useCallback(
-    (newCoupon: CouponType) => addCoupon(newCoupon),
+    (newCoupon: Coupon) => addCoupon(newCoupon),
     [coupons]
   );
 

@@ -1,9 +1,10 @@
 import CouponList from '@molecules/coupon/CouponList';
 import AddCoupon from '@templates/coupon/AddCoupon';
+import { Coupon } from 'src/types';
 
 type PropsType = {
-  coupons: CouponType[];
-  onCouponAdd: (coupon: CouponType) => void;
+  coupons: Coupon[];
+  onCouponAdd: (coupon: Coupon) => void;
 };
 
 const CouponManage: React.FC<PropsType> = ({ coupons, onCouponAdd }) => {

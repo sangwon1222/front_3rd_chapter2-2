@@ -1,52 +1,25 @@
+import { CartItem, Coupon, Discount, Product } from './types';
+
 interface AdminContextType {
   isAdmin: Boolean;
   toggleAdmin: () => void;
 }
 
 interface CouponContextType {
-  couponList: CouponType[];
-  addCoupon: (coupon: CouponType) => void;
+  couponList: Coupon[];
+  addCoupon: (coupon: Coupon) => void;
   removeCoupon: (id: string) => void;
-  getCoupon: (id: string) => CouponType;
+  getCoupon: (id: string) => Coupon;
 }
 
 interface ItemContextType {
-  itemList: ItemType[];
-  addItem: (item: ItemType) => void;
+  itemList: CartItem[];
+  addItem: (item: CartItem) => void;
   updateItem: (
     id: string,
-    key: keyof Omit<ItemType, 'id'>,
-    value: string | number | DiscountType[]
+    key: keyof Omit<Product, 'id'>,
+    value: string | number | Discount[]
   ) => void;
   removeItemById: (id: string) => void;
-  getItemById: (id: string) => ItemType;
+  getItemById: (id: string) => Product;
 }
-
-type CouponMapType = Map<string, CouponType>;
-
-type ItemMapType = Map<string, ItemType>;
-
-type CouponType = {
-  name: string;
-  code: string;
-  discountType: 'amount' | 'percentage';
-  discountValue: number;
-};
-
-type ItemType = {
-  id: string;
-  name: string;
-  price: number;
-  stock: number;
-  discounts: DiscountType[];
-};
-
-type DiscountType = {
-  quantity: number;
-  rate: number;
-};
-
-type CartItem = {
-  product: Product;
-  quantity: number;
-};

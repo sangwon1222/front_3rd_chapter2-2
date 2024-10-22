@@ -1,12 +1,13 @@
 import CouponManage from '@templates/CouponManage';
 import ItemManage from '@templates/ItemManage';
+import { Coupon, Product } from 'src/types';
 
 type PropsType = {
-  products: ItemType[];
-  coupons: CouponType[];
-  onProductUpdate: (item: ItemType) => void;
-  onProductAdd: (item: ItemType) => void;
-  onCouponAdd: (coupon: CouponType) => void;
+  products: Product[];
+  coupons: Coupon[];
+  onProductUpdate: (item: Product) => void;
+  onProductAdd: (item: Product) => void;
+  onCouponAdd: (coupon: Coupon) => void;
 };
 
 export const AdminPage: React.FC<PropsType> = ({

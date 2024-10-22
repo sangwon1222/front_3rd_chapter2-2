@@ -2,7 +2,7 @@ import UserItemCard from '@refactor/components/molecules/UserItemCard';
 import { CartItem, Product } from 'src/types';
 
 type PropsType = {
-  products: ItemType[];
+  products: Product[];
   cart: CartItem[];
   addToCart: (newProduct: Product) => void;
 };

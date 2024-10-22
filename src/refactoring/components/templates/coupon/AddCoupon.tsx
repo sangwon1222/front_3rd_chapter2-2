@@ -1,26 +1,25 @@
-// import { useCouponContext } from '@provider/coupon/useCouponContext';
 import { initCoupon } from '@refactor/data/coupon';
 import CustomInput from '@atoms/CustomInput';
 import ComboBox from '@atoms/ComboBox';
 import { useState } from 'react';
+import { Coupon } from 'src/types';
 
-type PropsType = { onCouponAdd: (coupon: CouponType) => void };
+type PropsType = { onCouponAdd: (coupon: Coupon) => void };
 
 const AddCoupon: React.FC<PropsType> = ({ onCouponAdd }) => {
-  // const { addCoupon } = useCouponContext();
-  const [newCouponForm, setNewCouponForm] = useState<CouponType>(initCoupon);
+  const [newCouponForm, setNewCouponForm] = useState<Coupon>(initCoupon);
 
-  const handleForm = (key: keyof CouponType, v: string | number) => {
+  const handleForm = (key: keyof Coupon, v: string | number) => {
     setNewCouponForm((prev) => ({ ...prev, [key]: v }));
   };
 
   // 쿠폰 추가
   const handleAddCoupon = () => {
-    // addCoupon(newCouponForm);
     onCouponAdd(newCouponForm);
 
     setNewCouponForm(initCoupon);
   };
+
   return (
     <div className="space-y-2 mb-4">
       <CustomInput

@@ -1,4 +1,6 @@
-const initData: ItemType = {
+import { Product } from 'src/types';
+
+const initData: Product = {
   id: '',
   name: '',
   price: 0,
@@ -7,11 +9,11 @@ const initData: ItemType = {
 };
 
 const useEditingItem = () => {
-  let data: ItemType;
+  let data: Product;
   data = initData;
   const getEditingItem = () => data;
   const setEditingItem = (
-    key: keyof Omit<ItemType, 'id'>,
+    key: keyof Omit<Product, 'id'>,
     value: string | number | { quantity: number; rate: number }[]
   ) => {
     data = { ...data, [key]: value };

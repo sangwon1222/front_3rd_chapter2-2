@@ -1,9 +1,8 @@
-import { useCouponContext } from '@provider/coupon/useCouponContext';
+import { Coupon } from 'src/types';
 
-type PropsType = { coupons: CouponType[] };
+type PropsType = { coupons: Coupon[] };
 
 const CouponList: React.FC<PropsType> = ({ coupons }) => {
-  // const { couponList } = useCouponContext();
   return (
     <>
       {coupons.map(({ name, code, discountType, discountValue }, index) => (

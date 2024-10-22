@@ -1,17 +1,45 @@
 import DiscountList from '@atoms/DiscountList';
 import UpdateItemForm from './UpdateItemForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Product } from 'src/types';
 
 type PropsType = {
-  item: ItemType;
-  onProductUpdate: (item: ItemType) => void;
+  item: Product;
+  onProductUpdate: (item: Product) => void;
 };
 
 const AdminItemCard: React.FC<PropsType> = ({ item, onProductUpdate }) => {
   const [openDetail, setOpenDetail] = useState<boolean>(false);
   const [isEdit, setEditMode] = useState<boolean>(false);
+  const [form, setFormData] = useState<{
+    name: string;
+    price: number;
+    stock: number;
+  }>({ name: '', price: 0, stock: 0 });
 
-  const complete = () => setEditMode((prev) => !prev);
+  useEffect(() => {
+    const { name, price, stock } = item;
+    setFormData({ name, price, stock });
+  }, [item]);
+
+  const updateFormData = (key: string, value: string | number) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const complete = () => {
+    if (isEdit) {
+      completeModify();
+    } else {
+      setEditMode(true);
+    }
+  };
+
+  const completeModify = () => {
+    setEditMode(false);
+    const { name, price, stock } = form;
+    onProductUpdate({ ...item, name, price, stock });
+  };
+
   return (
     <>
       <button
@@ -22,10 +50,11 @@ const AdminItemCard: React.FC<PropsType> = ({ item, onProductUpdate }) => {
         {item.name} - {item.price}원 (재고: {item.stock})
       </button>
 
+      {/* 토글 상품 상세 정보 */}
       {openDetail && (
         <>
           {isEdit && (
-            <UpdateItemForm product={item} onProductUpdate={onProductUpdate} />
+            <UpdateItemForm formData={form} updateFormData={updateFormData} />
           )}
 
           <DiscountList

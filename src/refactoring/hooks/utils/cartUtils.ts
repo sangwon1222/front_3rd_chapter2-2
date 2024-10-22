@@ -1,4 +1,4 @@
-import { CartItem, Coupon } from '../../../types';
+import { CartItem, Coupon, Product } from '../../../types';
 
 export const calculateItemTotal = (item: CartItem) => {
   const { product, quantity } = item;
@@ -18,6 +18,26 @@ export const getMaxApplicableDiscount = (item: CartItem) => {
   return appliedDiscount;
 };
 
+//getMaxApplicableDiscount 메모이제이션
+export const memoizedGetMaxApplicableDiscount = (() => {
+  const cache = new Map();
+  return (item: CartItem) => {
+    const key = `${item.product.id}-${item.quantity}`;
+    if (cache.has(key)) return cache.get(key);
+
+    const { discounts } = item.product;
+    const { quantity } = item;
+    let appliedDiscount = 0;
+    for (const discount of discounts) {
+      if (quantity >= discount.quantity) {
+        appliedDiscount = Math.max(appliedDiscount, discount.rate);
+      }
+    }
+    cache.set(key, appliedDiscount);
+    return appliedDiscount;
+  };
+})();
+
 export const calculateCartTotal = (
   cart: CartItem[],
   selectedCoupon: Coupon | null
@@ -26,10 +46,7 @@ export const calculateCartTotal = (
     calcDiscountAndPrice(cart);
 
   if (selectedCoupon) {
-    const { discountType, discountValue } = selectedCoupon;
-
-    const applyCoupon = discountStrategies[discountType];
-    const applyCouponPrice = applyCoupon(totalAfterDiscount, discountValue);
+    const applyCouponPrice = applyCoupon(totalAfterDiscount, selectedCoupon);
 
     return {
       totalBeforeDiscount,
@@ -74,12 +91,20 @@ const calcDiscountAndPrice = (cart: CartItem[]) => {
   return { totalBeforeDiscount, totalAfterDiscount, totalDiscount };
 };
 
+export const applyCoupon = (total: number, coupon: Coupon) => {
+  const { discountType, discountValue } = coupon;
+
+  const calcDiscount = discountStrategies[discountType];
+  const applyCouponPrice = calcDiscount(total, discountValue);
+  return applyCouponPrice;
+};
+
 const discountStrategies: Record<
   string,
   (price: number, value: number) => number
 > = {
-  amount: (price, value) => Math.max(0, price - value),
-  percentage: (price, value) => price * (1 - value / 100),
+  amount: (price, amount) => Math.max(0, price - amount),
+  percentage: (price, rate) => price * (1 - rate / 100),
   // 새로운 할인 유형 추가
 };
 
@@ -109,7 +134,7 @@ export const getMaxDiscount = (
   return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
 };
 
-export const getRemainingStock = (cart: CartItem[], product: ItemType) => {
+export const getRemainingStock = (cart: CartItem[], product: Product) => {
   const cartItem = cart?.find((item) => item.product.id === product.id);
   return product.stock - (cartItem?.quantity || 0);
 };

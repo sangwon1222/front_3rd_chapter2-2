@@ -1,15 +1,15 @@
-// import { useItemContext } from '@provider/item/useItemContext';
 import { initDiscount } from '@refactor/data/item';
 import CustomInput from '@atoms/CustomInput';
 import { useState } from 'react';
+import { Discount, Product } from 'src/types';
 
 type PropsType = {
-  product: ItemType;
-  onProductUpdate: (item: ItemType) => void;
+  product: Product;
+  onProductUpdate: (item: Product) => void;
 };
 
 const EditDiscount: React.FC<PropsType> = ({ product, onProductUpdate }) => {
-  const [newDiscount, setNewDiscount] = useState<DiscountType>(initDiscount);
+  const [newDiscount, setNewDiscount] = useState<Discount>(initDiscount);
 
   // 상품 할인 정보 추가
   const handleAddDiscount = () => {

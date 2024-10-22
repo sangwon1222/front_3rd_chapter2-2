@@ -1,13 +1,16 @@
 import { initCoupon, initialCoupons } from '@refactor/data/coupon';
 import { PropsWithChildren, useMemo, useState } from 'react';
 import { CouponContext } from './Context';
+import { Coupon } from 'src/types';
+
+type CouponMapType = Map<string, Coupon>;
 
 const CouponProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [coupons, setCoupons] = useState<CouponMapType>(
     new Map(initialCoupons)
   );
 
-  const addCoupon = (coupon: CouponType) => {
+  const addCoupon = (coupon: Coupon) => {
     setCoupons((prev) => {
       const newCoupons = new Map(prev);
       newCoupons.set(coupon.code, coupon);

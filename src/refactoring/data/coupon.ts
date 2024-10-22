@@ -1,4 +1,6 @@
-export const initialCoupons: [string, CouponType][] = [
+import { Coupon } from 'src/types';
+
+export const initialCoupons: [string, Coupon][] = [
   [
     'AMOUNT5000',
     {
@@ -24,7 +26,7 @@ export const initCoupon = {
   code: '',
   discountType: 'percentage',
   discountValue: 0,
-} as CouponType;
+} as Coupon;
 
 export const initCoupons = [
   {
@@ -39,4 +41,4 @@ export const initCoupons = [
     discountType: 'percentage',
     discountValue: 10,
   },
-] as CouponType[];
+] as Coupon[];

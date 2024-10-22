@@ -1,20 +1,17 @@
-// import { useItemContext } from '@provider/item/useItemContext';
 import AddItemForm from '@molecules/admin/AddItemForm';
 import useNewItem from '@hooks/useNewItem';
 import { useState } from 'react';
+import { Product } from 'src/types';
 
-// type PropsType = { products: ItemType; onProductAdd: (item: ItemType) => void };
-type PropsType = { onProductAdd: (item: ItemType) => void };
+type PropsType = { onProductAdd: (item: Product) => void };
 
 const AddItem: React.FC<PropsType> = ({ onProductAdd }) => {
   const [isEditing, setEditMode] = useState<boolean>(false);
   const { getNewItem, resetNewItem } = useNewItem;
-  // const { addItem } = useItemContext();
 
   const handleAddNewItem = () => {
     const data = getNewItem();
-    // addItem(data);
-    onProductAdd(data);
+    onProductAdd({ id: data.name, ...data });
 
     resetNewItem();
     setEditMode(false);

@@ -1,11 +1,14 @@
 import { PropsWithChildren, useMemo, useState } from 'react';
 import { initialItems, initItem } from '@refactor/data/item';
 import { ItemContext } from './Context';
+import { Discount, Product } from 'src/types';
+
+type ItemMapType = Map<string, Product>;
 
 const ItemProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [items, setItems] = useState<ItemMapType>(new Map(initialItems));
 
-  const addItem = (item: ItemType) => {
+  const addItem = (item: Product) => {
     setItems((prev) => {
       const newItems = new Map(prev);
       newItems.set(item.id, item);
@@ -15,8 +18,8 @@ const ItemProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const updateItem = (
     id: string,
-    key: keyof Omit<ItemType, 'id'>,
-    value: string | number | DiscountType[]
+    key: keyof Omit<Product, 'id'>,
+    value: string | number | Discount[]
   ) => {
     if (!items.has(id)) throw new Error(`Item with ID ${id} does not exist.`);
 

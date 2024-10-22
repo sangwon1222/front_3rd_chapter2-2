@@ -1,12 +1,13 @@
 import { initCoupon } from '@refactor/data/coupon';
+import { Coupon } from 'src/types';
 
 const useNewCoupon = () => {
-  let data: CouponType;
+  let data: Coupon;
   data = initCoupon;
 
   const getNewCoupon = () => data;
 
-  const setNewCoupon = (key: keyof CouponType, value: string | number) => {
+  const setNewCoupon = (key: keyof Coupon, value: string | number) => {
     data = { ...data, [key]: value };
   };
 
