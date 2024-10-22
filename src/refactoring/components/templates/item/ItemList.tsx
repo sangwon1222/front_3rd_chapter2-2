@@ -1,4 +1,4 @@
-import AdminItemCard from '@refactor/components/molecules/admin/AdminItemCard';
+import AdminItemCard from '@molecules/item/AdminItemCard';
 import { Product } from 'src/types';
 
 type PropsType = {

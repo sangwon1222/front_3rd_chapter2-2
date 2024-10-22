@@ -1,8 +1,11 @@
-// useCart.ts
-import { useState } from 'react';
 import { CartItem, Coupon, Product } from '../../types';
-import { calculateCartTotal, updateCartItemQuantity } from './utils/cartUtils';
 import { initCoupon } from '@refactor/data/coupon';
+import {
+  updateCartItemQuantity,
+  calculateCartTotal,
+  removeCartItem,
+} from '@refactor/hooks/utils/cartUtils';
+import { useState } from 'react';
 
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -12,40 +15,20 @@ export const useCart = () => {
     const findInCart = cart.find(({ product: { id } }) => id === newProduct.id);
 
     if (findInCart) {
-      setCart((prevCart) => {
-        const cartMap = new Map();
-
-        prevCart.forEach(({ product, quantity }) => {
-          const hasProduct = newProduct.id === product.id;
-          const changeQty = hasProduct ? quantity + 1 : quantity;
-
-          cartMap.set(product.id, { product, quantity: changeQty });
-        });
-
-        return Array.from(cartMap.values());
-      });
+      setCart((prev) =>
+        updateCartItemQuantity(prev, newProduct.id, findInCart.quantity + 1)
+      );
     } else {
-      // 장바구니에 없는 경우
-      setCart((prevCart) => [
-        ...prevCart,
-        { product: newProduct, quantity: 1 },
-      ]);
+      setCart((prev) => [...prev, { product: newProduct, quantity: 1 }]);
     }
   };
 
   const removeFromCart = (productId: string) => {
-    setCart((prevCart) => {
-      const cartMap = new Map();
-      prevCart.forEach((item) => {
-        if (item.product.id !== productId) cartMap.set(item.product.id, item);
-      });
-      return Array.from(cartMap.values());
-    });
+    setCart((prev) => removeCartItem(prev, productId));
   };
 
   const updateQuantity = (productId: string, newQuantity: number) => {
-    const updateCart = updateCartItemQuantity(cart, productId, newQuantity);
-    setCart(updateCart);
+    setCart((prev) => updateCartItemQuantity(prev, productId, newQuantity));
   };
 
   const applyCoupon = (coupon: Coupon | null) => {

@@ -4,7 +4,7 @@ type PropsType = {
   totalDiscount: number;
 };
 
-const CartTotal: React.FC<PropsType> = ({
+export const CartTotal: React.FC<PropsType> = ({
   totalBeforeDiscount,
   totalAfterDiscount,
   totalDiscount,
@@ -24,5 +24,3 @@ const CartTotal: React.FC<PropsType> = ({
     </div>
   );
 };
-
-export default CartTotal;

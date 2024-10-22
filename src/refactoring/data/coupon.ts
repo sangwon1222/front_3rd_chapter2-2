@@ -1,6 +1,6 @@
 import { Coupon } from 'src/types';
 
-export const initialCoupons: [string, Coupon][] = [
+export const initialCoupons: Readonly<[string, Coupon][]> = Object.freeze([
   [
     'AMOUNT5000',
     {
@@ -19,16 +19,16 @@ export const initialCoupons: [string, Coupon][] = [
       discountValue: 10,
     },
   ],
-];
+]);
 
-export const initCoupon = {
+export const initCoupon: Readonly<Coupon> = Object.freeze({
   name: '',
   code: '',
   discountType: 'percentage',
   discountValue: 0,
-} as Coupon;
+});
 
-export const initCoupons = [
+export const initCoupons: Readonly<Coupon[]> = Object.freeze([
   {
     name: '5000원 할인 쿠폰',
     code: 'AMOUNT5000',
@@ -41,4 +41,4 @@ export const initCoupons = [
     discountType: 'percentage',
     discountValue: 10,
   },
-] as Coupon[];
+]);

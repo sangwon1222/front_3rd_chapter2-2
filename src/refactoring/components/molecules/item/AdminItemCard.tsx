@@ -1,5 +1,5 @@
+import UpdateItemForm from '@molecules/item/UpdateItemForm';
 import DiscountList from '@atoms/DiscountList';
-import UpdateItemForm from './UpdateItemForm';
 import { useEffect, useState } from 'react';
 import { Product } from 'src/types';
 

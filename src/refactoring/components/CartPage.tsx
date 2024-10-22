@@ -1,9 +1,9 @@
-import ProductList from '@refactor/components/templates/cart/ProductList';
+import { ProductList } from '@templates/cart/ProductList';
+import { CartTotal } from '@molecules/cart/CartTotal';
 import { useCart } from '@refactor/hooks/useCart';
-import CartList from '@templates/cart/CartList';
-import CartTotal from '@molecules/CartTotal';
-import ComboBox from '@atoms/ComboBox';
+import { CartList } from '@templates/cart/CartList';
 import { Coupon, Product } from 'src/types';
+import { ComboBox } from '@atoms/ComboBox';
 
 type PropsType = {
   products: Product[];

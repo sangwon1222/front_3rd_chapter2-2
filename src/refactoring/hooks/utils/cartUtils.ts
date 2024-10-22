@@ -113,19 +113,40 @@ export const updateCartItemQuantity = (
   productId: string,
   newQuantity: number
 ): CartItem[] => {
-  const cartMap = new Map();
+  const cache = new Map();
 
   cart.forEach(({ product, quantity }) => {
     const hasProduct = productId === product.id;
     const changeQty = hasProduct ? newQuantity : quantity;
 
-    if (product.stock - changeQty < 0) {
-      cartMap.set(product.id, { product, quantity: product.stock });
-    } else if (changeQty > 0 && product.stock - newQuantity > 0)
-      cartMap.set(product.id, { product, quantity: changeQty });
+    if (product.stock - changeQty <= 0) {
+      // 재고가 없을 경우, 최대값으로 지정
+      cache.set(product.id, { product, quantity: product.stock });
+    } else if (changeQty > 0) {
+      // 재고가 있을 경우, changeQty으로 업데이트
+      cache.set(product.id, { product, quantity: changeQty });
+    }
   });
 
-  return Array.from(cartMap.values());
+  return Array.from(cache.values());
+};
+
+export const removeCartItem = (
+  cart: CartItem[],
+  productId: string
+): CartItem[] => {
+  const cache = new Map();
+
+  cart.forEach(({ product }) => {
+    const hasProduct = productId === product.id;
+
+    // id와 다를 경우만 set
+    if (!hasProduct) {
+      cache.set(product.id, { product, quantity: product.stock });
+    }
+  });
+
+  return Array.from(cache.values());
 };
 
 export const getMaxDiscount = (

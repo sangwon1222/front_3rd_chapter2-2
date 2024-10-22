@@ -1,6 +1,6 @@
-import AddItemForm from '@molecules/admin/AddItemForm';
-import { useState } from 'react';
+import AddItemForm from '@molecules/item/AddItemForm';
 import { Product } from 'src/types';
+import { useState } from 'react';
 
 type PropsType = {
   onProductAdd: (item: Product) => void;

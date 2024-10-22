@@ -8,7 +8,7 @@ type PropsType = {
   removeFromCart: (id: string) => void;
 };
 
-const CartList: React.FC<PropsType> = ({
+export const CartList: React.FC<PropsType> = ({
   item,
   updateQuantity,
   removeFromCart,
@@ -59,5 +59,3 @@ const CartList: React.FC<PropsType> = ({
     </>
   );
 };
-
-export default CartList;

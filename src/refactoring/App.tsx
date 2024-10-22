@@ -1,18 +1,22 @@
-import { useAdminContext } from '@provider/admin/useAdminContext';
+import { useAdminContext } from '@provider/useAdminContext';
 import { AdminPage } from '@refactor/components/AdminPage';
-import { initialProducts } from './data/item';
-import { useCallback } from 'react';
-import { initCoupons } from './data/coupon';
+import { useCoupons, useProducts } from '@refactor/hooks';
 import { CartPage } from '@refactor/components/CartPage';
-import Nav from '@templates/Nav';
+import { initialProducts } from '@refactor/data/item';
+import { initCoupons } from '@refactor/data/coupon';
 import { Coupon, Product } from 'src/types';
-import { useCoupons, useProducts } from './hooks';
-import { useNewItem } from './hooks/useNewItem';
+import { useCallback, useMemo } from 'react';
+import Nav from '@templates/Nav';
 
 const App = () => {
   const { isAdmin } = useAdminContext();
-  const { products, updateProduct, addProduct } = useProducts(initialProducts);
-  const { coupons, addCoupon } = useCoupons(initCoupons);
+  const { products, updateProduct, addProduct } = useProducts([
+    ...initialProducts,
+  ]);
+  const { coupons, addCoupon } = useCoupons([...initCoupons]);
+
+  const memoProducts = useMemo(() => products, [products]);
+  const memoCoupons = useMemo(() => coupons, [coupons]);
 
   const handleProductUpdate = useCallback(
     (updatedProduct: Product) => updateProduct(updatedProduct),
@@ -35,14 +39,14 @@ const App = () => {
       <main className="container mx-auto mt-6">
         {isAdmin ? (
           <AdminPage
-            products={products}
-            coupons={coupons}
+            products={memoProducts}
+            coupons={memoCoupons}
             onProductUpdate={handleProductUpdate}
             onProductAdd={handleProductAdd}
             onCouponAdd={handleCouponAdd}
           />
         ) : (
-          <CartPage products={products} coupons={coupons} />
+          <CartPage products={memoProducts} coupons={memoCoupons} />
         )}
       </main>
     </div>

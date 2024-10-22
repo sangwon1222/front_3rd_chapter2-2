@@ -1,8 +1,8 @@
 import { initCoupon } from '@refactor/data/coupon';
 import CustomInput from '@atoms/CustomInput';
-import ComboBox from '@atoms/ComboBox';
-import { useState } from 'react';
+import { ComboBox } from '@atoms/ComboBox';
 import { Coupon } from 'src/types';
+import { useState } from 'react';
 
 type PropsType = { onCouponAdd: (coupon: Coupon) => void };
 

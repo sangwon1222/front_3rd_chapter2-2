@@ -1,10 +1,12 @@
 import { PropsWithChildren, useMemo, useState } from 'react';
-import { AdminContext } from './Context';
+import { AdminContext } from '@provider/Context';
 
 const AdminProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isAdmin, setAdmin] = useState<Boolean>(false);
   const toggleAdmin = () => setAdmin((prev) => !prev);
+
   const value = useMemo(() => ({ isAdmin, toggleAdmin }), [isAdmin]);
+
   return (
     <AdminContext.Provider value={value}>{children}</AdminContext.Provider>
   );

@@ -1,6 +1,6 @@
 import { Discount, Product } from 'src/types';
 
-export const initialItems: [string, Product][] = [
+export const initialItems: Readonly<[string, Product][]> = Object.freeze([
   [
     'p1',
     {
@@ -34,22 +34,22 @@ export const initialItems: [string, Product][] = [
       discounts: [{ quantity: 10, rate: 0.2 }],
     },
   ],
-];
+]);
 
-export const initItem: Product = {
+export const initItem: Readonly<Product> = Object.freeze({
   id: '',
   name: '',
   price: 0,
   stock: 0,
   discounts: [],
-};
+});
 
-export const initDiscount: Discount = {
+export const initDiscount: Readonly<Discount> = Object.freeze({
   quantity: 0,
   rate: 0,
-};
+});
 
-export const initialProducts: Product[] = [
+export const initialProducts: Readonly<Product[]> = Object.freeze([
   {
     id: 'p1',
     name: '상품1',
@@ -74,4 +74,4 @@ export const initialProducts: Product[] = [
     stock: 20,
     discounts: [{ quantity: 10, rate: 0.2 }],
   },
-];
+]);

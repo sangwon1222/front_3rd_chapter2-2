@@ -1,4 +1,4 @@
-import UserItemCard from '@refactor/components/molecules/UserItemCard';
+import UserItemCard from '@refactor/components/molecules/item/UserItemCard';
 import { CartItem, Product } from 'src/types';
 
 type PropsType = {
@@ -7,7 +7,11 @@ type PropsType = {
   addToCart: (newProduct: Product) => void;
 };
 
-const ProductList: React.FC<PropsType> = ({ products, cart, addToCart }) => {
+export const ProductList: React.FC<PropsType> = ({
+  products,
+  cart,
+  addToCart,
+}) => {
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4">상품 목록</h2>
@@ -28,5 +32,3 @@ const ProductList: React.FC<PropsType> = ({ products, cart, addToCart }) => {
     </div>
   );
 };
-
-export default ProductList;
