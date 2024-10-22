@@ -1,4 +1,4 @@
-import { UserItemCard } from '@refactor/components/molecules/item/UserItemCard';
+import { UserItemCard } from '@molecules/item/UserItemCard';
 import { CartItem, Product } from 'src/types';
 
 type PropsType = {

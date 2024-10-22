@@ -16,8 +16,10 @@ export const EditDiscount: React.FC<PropsType> = ({
 
   // 상품 할인 정보 추가
   const handleAddDiscount = () => {
-    product.discounts.push(newDiscount);
-    onProductUpdate(product);
+    const newProduct = { ...product };
+    newProduct.discounts.push(newDiscount);
+    onProductUpdate(newProduct);
+
     setNewDiscount(initDiscount);
   };
 

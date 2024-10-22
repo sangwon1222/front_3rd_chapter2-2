@@ -1,4 +1,5 @@
 import { getMaxApplicableDiscount } from '@refactor/hooks/utils/cartUtils';
+import { convertPercentage } from '@refactor/hooks/utils/discountUtil';
 import { useEffect, useState } from 'react';
 import { CartItem } from 'src/types';
 
@@ -8,7 +9,7 @@ type PropsType = {
   removeFromCart: (id: string) => void;
 };
 
-const CartList: React.FC<PropsType> = ({
+export const ItemInCart: React.FC<PropsType> = ({
   item,
   updateQuantity,
   removeFromCart,
@@ -20,6 +21,7 @@ const CartList: React.FC<PropsType> = ({
     () => setAppliedDiscount(getMaxApplicableDiscount(item)),
     [quantity]
   );
+
   return (
     <>
       <div>
@@ -29,7 +31,7 @@ const CartList: React.FC<PropsType> = ({
           {product.price}원 x {quantity}
           {appliedDiscount > 0 && (
             <span className="text-green-600 ml-1">
-              ({(appliedDiscount * 100).toFixed(0)}% 할인 적용)
+              {convertPercentage(appliedDiscount)}% 할인
             </span>
           )}
         </span>
@@ -37,7 +39,7 @@ const CartList: React.FC<PropsType> = ({
       <div>
         <button
           onClick={() => updateQuantity(product.id, quantity - 1)}
-          disabled={item.quantity <= 0}
+          disabled={quantity <= 0}
           className="bg-gray-300 text-gray-800 px-2 py-1 rounded mr-1 hover:bg-gray-400"
         >
           -
@@ -45,7 +47,7 @@ const CartList: React.FC<PropsType> = ({
         <button
           onClick={() => updateQuantity(product.id, quantity + 1)}
           className="bg-gray-300 text-gray-800 px-2 py-1 rounded mr-1 hover:bg-gray-400"
-          disabled={item.product.stock === item.quantity}
+          disabled={product.stock === quantity}
         >
           +
         </button>
@@ -59,5 +61,3 @@ const CartList: React.FC<PropsType> = ({
     </>
   );
 };
-
-export default CartList;

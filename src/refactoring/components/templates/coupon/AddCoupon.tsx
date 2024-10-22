@@ -7,7 +7,7 @@ import { useState } from 'react';
 type PropsType = { onCouponAdd: (coupon: Coupon) => void };
 
 export const AddCoupon: React.FC<PropsType> = ({ onCouponAdd }) => {
-  const [newCouponForm, setNewCouponForm] = useState<Coupon>(initCoupon);
+  const [newCouponForm, setNewCouponForm] = useState<Coupon>({ ...initCoupon });
 
   const handleForm = (key: keyof Coupon, v: string | number) => {
     setNewCouponForm((prev) => ({ ...prev, [key]: v }));
@@ -16,8 +16,7 @@ export const AddCoupon: React.FC<PropsType> = ({ onCouponAdd }) => {
   // 쿠폰 추가
   const handleAddCoupon = () => {
     onCouponAdd(newCouponForm);
-
-    setNewCouponForm(initCoupon);
+    setNewCouponForm({ ...initCoupon });
   };
 
   return (

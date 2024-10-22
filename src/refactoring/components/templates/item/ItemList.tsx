@@ -1,4 +1,4 @@
-import { AdminItemCard } from '@molecules/item/AdminItemCard';
+import { AdminItemCard } from '@templates/item/AdminItemCard';
 import { Product } from 'src/types';
 
 type PropsType = {
