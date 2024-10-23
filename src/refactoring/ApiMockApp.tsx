@@ -1,19 +1,16 @@
+import { useApiMockProduct } from './hooks/useApiMockProduct';
+import { useApiMockCoupon } from './hooks/useApiMockCoupon';
 import { useAdminContext } from '@provider/useAdminContext';
 import { AdminPage } from '@refactor/components/AdminPage';
-import { useCoupons, useProducts } from '@refactor/hooks';
 import { CartPage } from '@refactor/components/CartPage';
-import { initialProducts } from '@refactor/data/item';
-import { initialCoupons } from '@refactor/data/coupon';
-import { Coupon, Product } from 'src/types';
 import { useCallback, useMemo } from 'react';
+import { Coupon, Product } from 'src/types';
 import { Nav } from '@templates/Nav';
 
-const App = () => {
+const ApiMockApp = () => {
   const { isAdmin } = useAdminContext();
-  const { products, updateProduct, addProduct } = useProducts([
-    ...initialProducts,
-  ]);
-  const { coupons, addCoupon } = useCoupons([...initialCoupons]);
+  const { products, updateProduct, addProduct } = useApiMockProduct();
+  const { coupons, addCoupon } = useApiMockCoupon();
 
   const memoProducts = useMemo(() => products, [products]);
   const memoCoupons = useMemo(() => coupons, [coupons]);
@@ -53,4 +50,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default ApiMockApp;
