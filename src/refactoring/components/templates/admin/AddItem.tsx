@@ -1,19 +1,18 @@
-import { useNewProductForm } from '@refactor/hooks/useNewProductForm';
 import { AddItemForm } from '@molecules/item/AddItemForm';
 import { Product } from 'src/types';
 import { useState } from 'react';
+import { useProductForm } from '@refactor/hooks/useProductForm';
 
 type PropsType = { onProductAdd: (item: Product) => void };
 
 export const AddItem: React.FC<PropsType> = ({ onProductAdd }) => {
   const [isEditing, setEditMode] = useState<boolean>(false);
-  const { newProductForm, updateNewProductForm, resetNewProductForm } =
-    useNewProductForm({
-      name: '',
-      price: 0,
-      stock: 0,
-      discounts: [],
-    });
+  const { productForm, updateProductForm, resetProductForm } = useProductForm({
+    name: '',
+    price: 0,
+    stock: 0,
+    discounts: [],
+  });
 
   const handleAddNewItem = ({
     name,
@@ -22,7 +21,7 @@ export const AddItem: React.FC<PropsType> = ({ onProductAdd }) => {
   }: Omit<Product, 'id' | 'discounts'>) => {
     onProductAdd({ id: name, name, price, stock, discounts: [] });
     setEditMode(false);
-    resetNewProductForm();
+    resetProductForm();
   };
 
   return (
@@ -39,8 +38,8 @@ export const AddItem: React.FC<PropsType> = ({ onProductAdd }) => {
           <h3 className="text-xl font-semibold mb-2">새 상품 추가</h3>
           <AddItemForm
             handleAddNewItem={handleAddNewItem}
-            newProductForm={newProductForm}
-            updateNewProductForm={updateNewProductForm}
+            productForm={productForm}
+            updateProductForm={updateProductForm}
           />
         </div>
       )}

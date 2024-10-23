@@ -18,7 +18,7 @@ export const ItemInCart: React.FC<PropsType> = ({
   const [appliedDiscount, setAppliedDiscount] = useState(0);
 
   useEffect(
-    () => setAppliedDiscount(getMaxApplicableDiscount(item)),
+    () => setAppliedDiscount(() => getMaxApplicableDiscount(item)),
     [quantity]
   );
 

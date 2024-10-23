@@ -1,5 +1,5 @@
-import { ItemList } from '@templates/item/ItemList';
-import { AddItem } from '@templates/item/AddItem';
+import { ItemList } from '@templates/admin/ItemList';
+import { AddItem } from '@templates/admin/AddItem';
 import { Product } from 'src/types';
 
 type PropsType = {
@@ -19,7 +19,7 @@ export const ItemManage: React.FC<PropsType> = ({
       {/* 새 상품 추가 */}
       <AddItem onProductAdd={onProductAdd} />
 
-      {/* 상품 아코디언 리스트 */}
+      {/* 상품 리스트 */}
       <div className="space-y-2">
         <ItemList products={products} onProductUpdate={onProductUpdate} />
       </div>

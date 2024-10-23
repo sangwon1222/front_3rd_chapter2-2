@@ -1,36 +1,29 @@
+import { useDiscountForm } from '@refactor/hooks/useDiscountFrom';
 import { initDiscount } from '@refactor/data/item';
 import { CustomInput } from '@atoms/CustomInput';
-import { useState } from 'react';
-import { Discount, Product } from 'src/types';
+import { Discount } from 'src/types';
 
 type PropsType = {
-  product: Product;
-  onProductUpdate: (item: Product) => void;
+  addDiscount: (newDiscount: Discount) => void;
 };
 
-export const EditDiscount: React.FC<PropsType> = ({
-  product,
-  onProductUpdate,
-}) => {
-  const [newDiscount, setNewDiscount] = useState<Discount>(initDiscount);
+export const EditDiscount: React.FC<PropsType> = ({ addDiscount }) => {
+  // 할인 입력 Form hook
+  const { discountForm, updateDiscountForm, resetDiscountForm } =
+    useDiscountForm({ ...initDiscount });
 
   // 상품 할인 정보 추가
   const handleAddDiscount = () => {
-    const newProduct = { ...product };
-    newProduct.discounts.push(newDiscount);
-    onProductUpdate(newProduct);
-
-    setNewDiscount(initDiscount);
+    addDiscount(discountForm);
+    resetDiscountForm();
   };
 
   // 할인 개수 편집
-  const handleQty = (v: string) => {
-    setNewDiscount((prev) => ({ ...prev, quantity: parseInt(v) }));
-  };
+  const handleQty = (v: string) => updateDiscountForm('quantity', parseInt(v));
 
   // 할인율 편집
   const handleRate = (v: string) => {
-    setNewDiscount((prev) => ({ ...prev, rate: parseInt(v) / 100 }));
+    updateDiscountForm('rate', parseInt(v) / 100);
   };
 
   return (
@@ -38,14 +31,14 @@ export const EditDiscount: React.FC<PropsType> = ({
       <CustomInput
         type="number"
         placeholder="수량"
-        inputValue={newDiscount.quantity}
+        inputValue={discountForm.quantity}
         onChange={handleQty}
         inputStyle="w-1/3 p-2 border rounded"
       />
       <CustomInput
         type="number"
         placeholder="할인율 (%)"
-        inputValue={newDiscount.rate * 100}
+        inputValue={discountForm.rate * 100}
         onChange={handleRate}
         inputStyle="w-1/3 p-2 border rounded"
       />

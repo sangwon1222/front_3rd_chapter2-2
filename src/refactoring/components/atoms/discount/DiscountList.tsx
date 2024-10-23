@@ -1,28 +1,24 @@
 import { EditDiscount } from './EditDiscount';
-import { Product } from 'src/types';
+import { Discount } from 'src/types';
 
 type PropsType = {
-  product: Product;
   isEdit: boolean;
-  onProductUpdate: (item: Product) => void;
+  discounts: Discount[];
+  addDiscount: (newDiscount: Discount) => void;
+  removeDiscount: (index: number) => void;
 };
 
 export const DiscountList: React.FC<PropsType> = ({
-  product,
-  onProductUpdate,
   isEdit = false,
+  discounts,
+  addDiscount,
+  removeDiscount,
 }) => {
-  // 상품 할인 정보 삭제
-  const handleRemoveDiscount = (index: number) => {
-    product.discounts.splice(index, 1);
-    onProductUpdate(product);
-  };
-
   return (
     <div>
       <h4 className="text-lg font-semibold mb-2">할인 정보</h4>
 
-      {product.discounts.map(({ quantity, rate }, index: number) => (
+      {discounts.map(({ quantity, rate }, index: number) => (
         <div key={index} className="flex justify-between items-center mb-2">
           <span>
             {quantity}개 이상 구매 시 {rate * 100}% 할인
@@ -30,7 +26,7 @@ export const DiscountList: React.FC<PropsType> = ({
 
           {isEdit && (
             <button
-              onClick={() => handleRemoveDiscount(index)}
+              onClick={() => removeDiscount(index)}
               className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
             >
               삭제
@@ -40,9 +36,7 @@ export const DiscountList: React.FC<PropsType> = ({
       ))}
 
       {/* 할인 편집 */}
-      {isEdit && (
-        <EditDiscount product={product} onProductUpdate={onProductUpdate} />
-      )}
+      {isEdit && <EditDiscount addDiscount={addDiscount} />}
     </div>
   );
 };

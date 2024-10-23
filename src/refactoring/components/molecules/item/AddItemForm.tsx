@@ -3,8 +3,8 @@ import { Product } from 'src/types';
 
 type PropsType = {
   handleAddNewItem: (params: Omit<Product, 'id' | 'discounts'>) => void;
-  newProductForm: Omit<Product, 'id' | 'discounts'>;
-  updateNewProductForm: (
+  productForm: Omit<Product, 'id' | 'discounts'>;
+  updateProductForm: (
     key: keyof Omit<Product, 'id' | 'discounts'>,
     value: string | number
   ) => void;
@@ -12,14 +12,14 @@ type PropsType = {
 
 export const AddItemForm: React.FC<PropsType> = ({
   handleAddNewItem,
-  newProductForm,
-  updateNewProductForm,
+  productForm,
+  updateProductForm,
 }) => {
   const handleFormData = (
     key: keyof Omit<Product, 'id' | 'discounts'>,
     value: string | number
   ) => {
-    updateNewProductForm(key, value);
+    updateProductForm(key, value);
   };
 
   return (
@@ -27,7 +27,7 @@ export const AddItemForm: React.FC<PropsType> = ({
       <InputWithLabel
         label="상품명"
         id="itemName"
-        inputValue={newProductForm.name}
+        inputValue={productForm.name}
         onChange={(v) => handleFormData('name', v)}
         inputStyle="w-full p-2 border rounded"
       />
@@ -36,7 +36,7 @@ export const AddItemForm: React.FC<PropsType> = ({
         label="가격"
         id="productPrice"
         type="number"
-        inputValue={newProductForm.price}
+        inputValue={productForm.price}
         onChange={(v) => handleFormData('price', +v)}
         inputStyle="w-full p-2 border rounded"
         labelStyle="block text-sm font-medium text-gray-700"
@@ -46,13 +46,13 @@ export const AddItemForm: React.FC<PropsType> = ({
         label="재고"
         id="productStock"
         type="number"
-        inputValue={newProductForm.stock}
+        inputValue={productForm.stock}
         onChange={(v) => handleFormData('stock', +v)}
         inputStyle="w-full p-2 border rounded"
         labelStyle="block text-sm font-medium text-gray-700"
       />
       <button
-        onClick={() => handleAddNewItem(newProductForm)}
+        onClick={() => handleAddNewItem(productForm)}
         className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
       >
         추가

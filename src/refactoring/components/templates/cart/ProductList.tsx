@@ -1,4 +1,4 @@
-import { UserItemCard } from '@molecules/item/UserItemCard';
+import { CartItemCard } from '@refactor/components/molecules/item/CartItemCard';
 import { CartItem, Product } from 'src/types';
 
 type PropsType = {
@@ -24,7 +24,7 @@ export const ProductList: React.FC<PropsType> = ({
               data-testid={`product-${id}`}
               className="bg-white p-3 rounded shadow"
             >
-              <UserItemCard item={item} cart={cart} addToCart={addToCart} />
+              <CartItemCard item={item} cart={cart} addToCart={addToCart} />
             </div>
           );
         })}

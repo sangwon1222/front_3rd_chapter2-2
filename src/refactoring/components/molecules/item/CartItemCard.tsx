@@ -1,7 +1,7 @@
-import { getRemainingStock } from '@refactor/hooks/utils/cartUtils';
 import { StockNDiscount } from '@atoms/item/StockNDiscount';
 import { CartItem, Product } from 'src/types';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useStock } from '@refactor/hooks/useStock';
 
 type PropsType = {
   item: Product;
@@ -9,15 +9,15 @@ type PropsType = {
   addToCart: (newProduct: Product) => void;
 };
 
-export const UserItemCard: React.FC<PropsType> = ({
+export const CartItemCard: React.FC<PropsType> = ({
   item,
   cart,
   addToCart,
 }) => {
   const { name, price } = item;
-  const [remainingStock, setRemainingStock] = useState(0);
+  const { stock, updateStock } = useStock(0);
 
-  useEffect(() => setRemainingStock(getRemainingStock(cart, item)), [cart]);
+  useEffect(() => updateStock(cart, item), [cart]);
 
   return (
     <>
@@ -27,9 +27,9 @@ export const UserItemCard: React.FC<PropsType> = ({
       </div>
 
       {/* 재고 & 할인 정보 */}
-      <StockNDiscount item={item} cart={cart} />
+      <StockNDiscount stock={stock} discounts={item.discounts} />
 
-      {remainingStock > 0 ? (
+      {stock > 0 ? (
         <button
           onClick={() => addToCart(item)}
           className="w-full px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"

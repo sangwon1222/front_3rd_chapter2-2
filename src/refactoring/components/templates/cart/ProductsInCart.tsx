@@ -1,4 +1,4 @@
-import { ItemInCart } from '@molecules/cart/ItemInCart';
+import { ItemInCart } from '@refactor/components/molecules/cart/ItemInCart';
 import { CartItem } from 'src/types';
 
 type PropsType = {
@@ -7,21 +7,21 @@ type PropsType = {
   removeFromCart: (id: string) => void;
 };
 
-export const ItemListInCart: React.FC<PropsType> = ({
+export const ProductsInCart: React.FC<PropsType> = ({
   cart,
   updateQuantity,
   removeFromCart,
 }) => {
   return (
     <>
-      {cart.map((itemInCart) => {
+      {cart.map((cartItem) => {
         return (
           <div
-            key={itemInCart.product.id}
+            key={cartItem.product.id}
             className="flex justify-between items-center bg-white p-3 rounded shadow"
           >
             <ItemInCart
-              item={itemInCart}
+              item={cartItem}
               updateQuantity={updateQuantity}
               removeFromCart={removeFromCart}
             />

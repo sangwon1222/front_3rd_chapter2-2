@@ -1,12 +1,16 @@
 import { InputWithLabel } from '@atoms/InputWithLabel';
+import { Product } from 'src/types';
 
 type PropsType = {
-  formData: { name: string; price: number; stock: number };
-  updateFormData: (key: string, value: string | number) => void;
+  productForm: Omit<Product, 'id' | 'discount'>;
+  updateFormData: (
+    key: keyof Omit<Product, 'id' | 'discounts'>,
+    value: string | number
+  ) => void;
 };
 
 export const UpdateItemForm: React.FC<PropsType> = ({
-  formData,
+  productForm,
   updateFormData,
 }) => {
   return (
@@ -14,7 +18,7 @@ export const UpdateItemForm: React.FC<PropsType> = ({
       <InputWithLabel
         label="상품명"
         id="itemName"
-        inputValue={formData.name}
+        inputValue={productForm.name}
         onChange={(v) => updateFormData('name', v)}
         inputStyle="w-full p-2 border rounded"
         labelStyle="block mb-1"
@@ -24,7 +28,7 @@ export const UpdateItemForm: React.FC<PropsType> = ({
         label="가격"
         id="productPrice"
         type="number"
-        inputValue={formData.price}
+        inputValue={productForm.price}
         onChange={(v) => updateFormData('price', parseInt(v))}
         inputStyle="w-full p-2 border rounded"
         labelStyle="block mb-1"
@@ -34,7 +38,7 @@ export const UpdateItemForm: React.FC<PropsType> = ({
         label="재고"
         id="productStock"
         type="number"
-        inputValue={formData.stock}
+        inputValue={productForm.stock}
         onChange={(v) => updateFormData('stock', parseInt(v))}
         inputStyle="w-full p-2 border rounded"
         labelStyle="block mb-1"
