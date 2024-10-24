@@ -1,16 +1,20 @@
 import { initialProducts } from '@refactor/data/item';
-import { Coupon, Product } from 'src/types';
+import { Coupon, Grade, Product } from 'src/types';
 import { http, HttpResponse } from 'msw';
 import { initialCoupons } from '@refactor/data/coupon';
+import { initialGrades } from '@refactor/data/grade';
 
 let products: Product[] = [...initialProducts];
 let coupons: Coupon[] = [...initialCoupons];
+let grades: Grade[] = [...initialGrades];
+let memberGradeIndex: number = 0; // 초기값 일반이라는 전제
 
 export const handlers = [
+  /**
+   * 제품 MOCK API *********************************************
+   */
   // 모든 제품 정보 가져오기
-  http.get('/api/products', () =>
-    HttpResponse.json([...products], { status: 200 })
-  ),
+  http.get('/api/products', () => HttpResponse.json(products, { status: 200 })),
 
   // id로 제품 정보 가져오기
   http.get('/api/products:id', ({ params }) => {
@@ -18,7 +22,7 @@ export const handlers = [
     const productIndex = products.findIndex((p) => p.id === id);
 
     if (productIndex) {
-      return HttpResponse.json({ ...products[productIndex] }, { status: 200 });
+      return HttpResponse.json(products[productIndex], { status: 200 });
     } else {
       return HttpResponse.json(
         { error: '[products:id] Bad Request' },
@@ -65,6 +69,10 @@ export const handlers = [
     }
   }),
 
+  /**
+   * 쿠폰 MOCK API *********************************************
+   */
+
   // 모든 쿠폰 정보 가져오기
   http.get('/api/coupons', () =>
     HttpResponse.json([...coupons], { status: 200 })
@@ -96,6 +104,35 @@ export const handlers = [
     } catch (e) {
       return HttpResponse.json(
         { error: '[remove-coupon] Bad Request' },
+        { status: 400 }
+      );
+    }
+  }),
+
+  /**
+   * 등급 MOCK API *********************************************
+   */
+
+  // 모든 등급 정보 가져오기
+  http.get('/api/grades', () => HttpResponse.json(grades, { status: 200 })),
+
+  // 현재 등급 정보 가져오기
+  http.get('/api/get-member-grade', () =>
+    HttpResponse.json({ id: memberGradeIndex }, { status: 200 })
+  ),
+
+  // 제품 수정
+  http.post('/api/update-member-grade', async ({ request }) => {
+    try {
+      const newGrade = (await request.json()) as Grade;
+      const hasGrade = grades.find((g) => g.id === newGrade.id);
+      if (hasGrade) memberGradeIndex = newGrade.id;
+      return HttpResponse.json({ id: memberGradeIndex }, { status: 200 });
+    } catch (e) {
+      return HttpResponse.json(
+        {
+          error: e + '  /  ' + '[update-grades] Bad Request',
+        },
         { status: 400 }
       );
     }

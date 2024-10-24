@@ -1,4 +1,4 @@
-import { useAdminContext } from '@provider/useAdminContext';
+import { useAdminContext } from '@provider/admin/useAdminContext';
 
 export const Nav: React.FC = () => {
   const { isAdmin, toggleAdmin } = useAdminContext();

@@ -1,4 +1,4 @@
-import { AdminContext } from '@provider/Context';
+import { AdminContext } from '@refactor/provider/admin/context';
 import { useContext } from 'react';
 
 export const useAdminContext = () => {

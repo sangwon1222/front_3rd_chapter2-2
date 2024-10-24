@@ -1,5 +1,5 @@
 import { PropsWithChildren, useMemo, useState } from 'react';
-import { AdminContext } from '@provider/Context';
+import { AdminContext } from '@refactor/provider/admin/context';
 
 const AdminProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isAdmin, setAdmin] = useState<Boolean>(false);

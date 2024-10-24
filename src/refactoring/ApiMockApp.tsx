@@ -1,11 +1,12 @@
-import { useApiMockProduct } from './hooks/useApiMockProduct';
-import { useApiMockCoupon } from './hooks/useApiMockCoupon';
-import { useAdminContext } from '@provider/useAdminContext';
+import { useAdminContext } from '@refactor/provider/admin/useAdminContext';
+import { useApiMockProduct } from './hooks/api/useApiMockProducts';
+import { useApiMockCoupon } from './hooks/api/useApiMockCoupons';
 import { AdminPage } from '@refactor/components/AdminPage';
 import { CartPage } from '@refactor/components/CartPage';
 import { useCallback, useMemo } from 'react';
 import { Coupon, Product } from 'src/types';
 import { Nav } from '@templates/Nav';
+import { useApiGrade } from './hooks/api/useApiGrade';
 
 const ApiMockApp = () => {
   const { isAdmin } = useAdminContext();
@@ -30,6 +31,8 @@ const ApiMockApp = () => {
     [coupons]
   );
 
+  const { grade, gradeList, updateGrade } = useApiGrade();
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Nav />
@@ -43,7 +46,13 @@ const ApiMockApp = () => {
             onCouponAdd={handleCouponAdd}
           />
         ) : (
-          <CartPage products={memoProducts} coupons={memoCoupons} />
+          <CartPage
+            products={memoProducts}
+            coupons={memoCoupons}
+            grade={grade}
+            gradeList={gradeList}
+            updateGrade={updateGrade}
+          />
         )}
       </main>
     </div>

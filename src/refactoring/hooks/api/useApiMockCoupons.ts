@@ -1,6 +1,6 @@
-import { Coupon } from '../../types.ts';
+import { Coupon } from '../../../types.ts';
 import { useEffect, useState } from 'react';
-import { debounce } from './utils/util.ts';
+import { debounce } from '../utils/util.ts';
 
 export const useApiMockCoupon = () => {
   const [coupons, setCoupons] = useState<Coupon[]>(() => []);

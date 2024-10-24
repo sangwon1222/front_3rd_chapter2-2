@@ -1,4 +1,4 @@
-import AdminProvider from '@refactor/provider/AdminProvider.tsx';
+import AdminProvider from '@provider/admin/AdminProvider.tsx';
 import ReactDOM from 'react-dom/client';
 import React from 'react';
 import ApiMockApp from './ApiMockApp.tsx';
