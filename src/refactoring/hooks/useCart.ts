@@ -1,9 +1,10 @@
-import { CartItem, Coupon, Product } from '../../types';
+import { CartItem, Coupon, Grade, Product } from '../../types';
 import { initCoupon } from '@refactor/data/coupon';
 import {
   updateCartItemQuantity,
   calculateCartTotal,
   removeCartItem,
+  calculateCartTotalWithGrade,
 } from '@refactor/hooks/utils/cartUtils';
 import { useState } from 'react';
 
@@ -40,6 +41,10 @@ export const useCart = () => {
     return calculateCartTotal(cart, selectedCoupon);
   };
 
+  const calculateTotalWithGrade = (grade: Grade) => {
+    return calculateCartTotalWithGrade(cart, grade);
+  };
+
   return {
     cart,
     addToCart,
@@ -48,5 +53,6 @@ export const useCart = () => {
     applyCoupon,
     calculateTotal,
     selectedCoupon,
+    calculateTotalWithGrade,
   };
 };

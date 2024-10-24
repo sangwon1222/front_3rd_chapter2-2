@@ -1,5 +1,6 @@
-import { CartItem, Coupon, Product } from '../../../types';
+import { CartItem, Coupon, Grade, Product } from '../../../types';
 import { getApplyCouponPrice } from './couponUtil';
+import { getApplyGradePrice } from './gradeUtil';
 
 export const calculateItemTotal = (item: CartItem) => {
   const { product, quantity } = item;
@@ -30,6 +31,7 @@ const memoizedGetMaxApplicableDiscount = (() => {
   };
 })();
 
+// 쿠폰 적용
 export const calculateCartTotal = (
   cart: CartItem[],
   selectedCoupon: Coupon | null
@@ -51,6 +53,20 @@ export const calculateCartTotal = (
   }
 
   return { totalBeforeDiscount, totalAfterDiscount, totalDiscount };
+};
+
+// 등급 적용
+export const calculateCartTotalWithGrade = (cart: CartItem[], grade: Grade) => {
+  const { totalBeforeDiscount, totalAfterDiscount } =
+    calcDiscountAndPrice(cart);
+
+  const applyGradePrice = getApplyGradePrice(totalAfterDiscount, grade);
+
+  return {
+    totalBeforeDiscount,
+    totalAfterDiscount: applyGradePrice,
+    totalDiscount: totalBeforeDiscount - applyGradePrice,
+  };
 };
 
 // 장바구니 수량 업데이트

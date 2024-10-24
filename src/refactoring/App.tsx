@@ -1,4 +1,4 @@
-import { useAdminContext } from '@provider/useAdminContext';
+import { useAdminContext } from '@refactor/provider/admin/useAdminContext';
 import { AdminPage } from '@refactor/components/AdminPage';
 import { useCoupons, useProducts } from '@refactor/hooks';
 import { CartPage } from '@refactor/components/CartPage';
@@ -7,6 +7,8 @@ import { initialCoupons } from '@refactor/data/coupon';
 import { Coupon, Product } from 'src/types';
 import { useCallback, useMemo } from 'react';
 import { Nav } from '@templates/Nav';
+import { useGrade } from './hooks/useGrade';
+import { initialGrades } from './data/grade';
 
 const App = () => {
   const { isAdmin } = useAdminContext();
@@ -33,6 +35,8 @@ const App = () => {
     [coupons]
   );
 
+  const { grade, gradeList, updateGrade } = useGrade([...initialGrades]);
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Nav />
@@ -46,7 +50,13 @@ const App = () => {
             onCouponAdd={handleCouponAdd}
           />
         ) : (
-          <CartPage products={memoProducts} coupons={memoCoupons} />
+          <CartPage
+            products={memoProducts}
+            coupons={memoCoupons}
+            grade={grade}
+            gradeList={gradeList}
+            updateGrade={updateGrade}
+          />
         )}
       </main>
     </div>

@@ -1,14 +1,23 @@
 import { ProductList } from '@templates/cart/ProductList';
 import { CartHistory } from '@templates/cart/CartHistory';
 import { useCart } from '@refactor/hooks/useCart';
-import { Coupon, Product } from 'src/types';
+import { Coupon, Grade, Product } from 'src/types';
 
 type PropsType = {
   products: Product[];
   coupons: Coupon[];
+  grade?: Grade | null;
+  gradeList?: Grade[] | null;
+  updateGrade?: ((id: number) => void) | null;
 };
 
-export const CartPage: React.FC<PropsType> = ({ products, coupons }) => {
+export const CartPage: React.FC<PropsType> = ({
+  products,
+  coupons,
+  grade = null,
+  gradeList = null,
+  updateGrade = null,
+}) => {
   const {
     cart,
     addToCart,
@@ -16,6 +25,7 @@ export const CartPage: React.FC<PropsType> = ({ products, coupons }) => {
     updateQuantity,
     applyCoupon,
     calculateTotal,
+    calculateTotalWithGrade,
     selectedCoupon,
   } = useCart();
 
@@ -35,6 +45,10 @@ export const CartPage: React.FC<PropsType> = ({ products, coupons }) => {
           applyCoupon={applyCoupon}
           selectedCoupon={selectedCoupon}
           calculateTotal={calculateTotal}
+          calculateTotalWithGrade={calculateTotalWithGrade}
+          grade={grade}
+          gradeList={gradeList}
+          updateGrade={updateGrade}
         />
       </div>
     </div>
