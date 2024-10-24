@@ -17,10 +17,8 @@ export const useStorageCoupons = () => {
   }, []);
 
   const addCoupon = (newCoupon: Coupon) => {
-    console.log({ coupons });
     const newData = [...coupons, newCoupon];
     setCoupons(newData);
-    console.log({ newData });
     localStorage.setItem('coupons', JSON.stringify(newData));
   };
 

@@ -10,7 +10,6 @@ export const useApiMockProduct = () => {
   }, []);
 
   const updateProduct = (product: Product) => {
-    console.log(product);
     fetch('/api/update-product', {
       method: 'post',
       headers: {
@@ -19,10 +18,7 @@ export const useApiMockProduct = () => {
       body: JSON.stringify(product),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log({ data });
-        setProducts(data);
-      });
+      .then((data) => setProducts(data));
   };
 
   const addProduct = (product: Product) => {
