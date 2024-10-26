@@ -1,3 +1,8 @@
+import {
+  addProductFormDiscount,
+  addProductFormValue,
+  removeProductFormDiscount,
+} from '@refactor/service/products/form.ts';
 import { Discount, Product } from '../../types.ts';
 import { useState } from 'react';
 
@@ -12,22 +17,15 @@ export const useProductForm = (initialProducts: Omit<Product, 'id'>) => {
     key: keyof Omit<Product, 'id' | 'discounts'>,
     value: string | number | Discount[]
   ) => {
-    setProduct((prev) => ({ ...prev, [key]: value }));
+    setProduct((prev) => addProductFormValue(prev, key, value));
   };
 
   const addDiscount = (newDiscount: Discount) => {
-    setProduct((prev) => {
-      return { ...prev, discounts: [...prev.discounts, newDiscount] };
-    });
+    setProduct((prev) => addProductFormDiscount(prev, newDiscount));
   };
 
   const removeDiscount = (index: number) => {
-    setProduct((prev) => {
-      return {
-        ...prev,
-        discounts: prev.discounts.filter((_, i) => i !== index),
-      };
-    });
+    setProduct((prev) => removeProductFormDiscount(prev, index));
   };
 
   const resetProductForm = () => setProduct({ ...initialProducts });

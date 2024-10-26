@@ -10,6 +10,7 @@ type PropsType = {
 };
 
 export const StockNDiscount: React.FC<PropsType> = ({ stock, discounts }) => {
+  const hasDiscounts = discounts.length > 0;
   return (
     <>
       <div className="text-sm text-gray-500 mb-2">
@@ -20,7 +21,7 @@ export const StockNDiscount: React.FC<PropsType> = ({ stock, discounts }) => {
         </span>
 
         {/* 최대 할인 */}
-        {discounts.length > 0 && (
+        {hasDiscounts && (
           <span className="ml-2 font-medium text-blue-600">
             최대 {convertPercentage(getMaxDiscount(discounts))}% 할인
           </span>
@@ -28,10 +29,10 @@ export const StockNDiscount: React.FC<PropsType> = ({ stock, discounts }) => {
       </div>
 
       {/* 할인 리스트 */}
-      {discounts.length > 0 && (
+      {hasDiscounts && (
         <ul className="list-disc list-inside text-sm text-gray-500 mb-2">
           {discounts.map(({ quantity, rate }, index) => (
-            <li key={index}>
+            <li key={`${index}th-${quantity}-${rate}-discount`}>
               {`${quantity}개 이상: ${convertPercentage(rate)}`}% 할인
             </li>
           ))}

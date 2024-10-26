@@ -1,3 +1,4 @@
+import { LOCAL_STORAGE_GRADE_KEY } from '@refactor/constants/grade';
 import { initialGrades } from '@refactor/data/grade';
 import { useEffect, useState } from 'react';
 import { Grade } from 'src/types';
@@ -8,20 +9,27 @@ export const useStorageGrade = () => {
 
   // 스토리지 값 설정
   useEffect(() => {
-    const storageGradeList = localStorage.getItem('grades');
-    if (storageGradeList) {
-      setGradeList(JSON.parse(storageGradeList));
-    } else {
-      localStorage.setItem('grades', JSON.stringify(initialGrades));
-      setGradeList([...initialGrades]);
-    }
+    try {
+      const storageGradeList = localStorage.getItem(LOCAL_STORAGE_GRADE_KEY);
+      if (storageGradeList) {
+        setGradeList(JSON.parse(storageGradeList));
+      } else {
+        localStorage.setItem(
+          LOCAL_STORAGE_GRADE_KEY,
+          JSON.stringify(initialGrades)
+        );
+        setGradeList([...initialGrades]);
+      }
 
-    const storageMemberGrade = localStorage.getItem('memberGrade');
-    if (storageMemberGrade) {
-      setGradeId(JSON.parse(storageMemberGrade));
-    } else {
-      localStorage.setItem('memberGrade', JSON.stringify(0));
-      setGradeId(0);
+      const storageMemberGrade = localStorage.getItem('memberGrade');
+      if (storageMemberGrade) {
+        setGradeId(JSON.parse(storageMemberGrade));
+      } else {
+        localStorage.setItem('memberGrade', JSON.stringify(0));
+        setGradeId(0);
+      }
+    } catch (e) {
+      throw new Error('Error accessing localStorage' + e);
     }
   }, []);
 

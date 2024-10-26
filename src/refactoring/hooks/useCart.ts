@@ -1,11 +1,16 @@
 import { CartItem, Coupon, Grade, Product } from '../../types';
 import { initCoupon } from '@refactor/data/coupon';
 import {
-  updateCartItemQuantity,
   calculateCartTotal,
   removeCartItem,
   calculateCartTotalWithGrade,
+  updateCartItemQuantity,
 } from '@refactor/hooks/utils/cartUtils';
+import {
+  findProductInCartByIndex,
+  increaseCartItemQty,
+  updateCartNewItem,
+} from '@refactor/service/cart/cart';
 import { useState } from 'react';
 
 export const useCart = () => {
@@ -13,14 +18,13 @@ export const useCart = () => {
   const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
 
   const addToCart = (newProduct: Product) => {
-    const findInCart = cart.find(({ product: { id } }) => id === newProduct.id);
+    const findIndex = findProductInCartByIndex(cart, newProduct.id);
+    const hasProductInCart = findIndex > -1;
 
-    if (findInCart) {
-      setCart((prev) =>
-        updateCartItemQuantity(prev, newProduct.id, findInCart.quantity + 1)
-      );
+    if (hasProductInCart) {
+      setCart((prev) => increaseCartItemQty(prev, newProduct.id));
     } else {
-      setCart((prev) => [...prev, { product: newProduct, quantity: 1 }]);
+      setCart((prev) => updateCartNewItem(prev, newProduct));
     }
   };
 

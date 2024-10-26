@@ -8,11 +8,15 @@ export const useStorageCoupons = () => {
   // 스토리지 값 설정
   useEffect(() => {
     const storageCoupons = localStorage.getItem('coupons');
-    if (storageCoupons) {
-      setCoupons(JSON.parse(storageCoupons));
-    } else {
-      localStorage.setItem('coupons', JSON.stringify(initialCoupons));
-      setCoupons([...initialCoupons]);
+    try {
+      if (storageCoupons) {
+        setCoupons(JSON.parse(storageCoupons));
+      } else {
+        localStorage.setItem('coupons', JSON.stringify(initialCoupons));
+        setCoupons([...initialCoupons]);
+      }
+    } catch (e) {
+      throw new Error('Error accessing localStorage' + e);
     }
   }, []);
 
