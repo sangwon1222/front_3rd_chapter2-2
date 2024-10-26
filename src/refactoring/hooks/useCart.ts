@@ -19,21 +19,25 @@ export const useCart = () => {
 
   const addToCart = (newProduct: Product) => {
     const findIndex = findProductInCartByIndex(cart, newProduct.id);
-    const hasProductInCart = findIndex > -1;
+    const hasProductInCart = findIndex !== -1;
 
     if (hasProductInCart) {
-      setCart((prev) => increaseCartItemQty(prev, newProduct.id));
+      const updatedCartData = increaseCartItemQty(cart, newProduct.id);
+      setCart(updatedCartData);
     } else {
-      setCart((prev) => updateCartNewItem(prev, newProduct));
+      const updatedCartData = updateCartNewItem(cart, newProduct);
+      setCart(updatedCartData);
     }
   };
 
   const removeFromCart = (productId: string) => {
-    setCart((prev) => removeCartItem(prev, productId));
+    const removedCartItem = removeCartItem(cart, productId);
+    setCart(removedCartItem);
   };
 
   const updateQuantity = (productId: string, newQuantity: number) => {
-    setCart((prev) => updateCartItemQuantity(prev, productId, newQuantity));
+    const updateCart = updateCartItemQuantity(cart, productId, newQuantity);
+    setCart(updateCart);
   };
 
   const applyCoupon = (coupon: Coupon | null) => {

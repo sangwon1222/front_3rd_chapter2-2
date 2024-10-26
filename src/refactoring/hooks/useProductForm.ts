@@ -17,15 +17,18 @@ export const useProductForm = (initialProducts: Omit<Product, 'id'>) => {
     key: keyof Omit<Product, 'id' | 'discounts'>,
     value: string | number | Discount[]
   ) => {
-    setProduct((prev) => addProductFormValue(prev, key, value));
+    const updatedForm = addProductFormValue(productForm, key, value);
+    setProduct(updatedForm);
   };
 
   const addDiscount = (newDiscount: Discount) => {
-    setProduct((prev) => addProductFormDiscount(prev, newDiscount));
+    const updatedDiscount = addProductFormDiscount(productForm, newDiscount);
+    setProduct(updatedDiscount);
   };
 
   const removeDiscount = (index: number) => {
-    setProduct((prev) => removeProductFormDiscount(prev, index));
+    const removedDiscount = removeProductFormDiscount(productForm, index);
+    setProduct(removedDiscount);
   };
 
   const resetProductForm = () => setProduct({ ...initialProducts });
