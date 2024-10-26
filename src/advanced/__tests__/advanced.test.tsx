@@ -504,6 +504,11 @@ describe('advanced > ', () => {
         expect(screen.getByTestId('product-p1')).toBeInTheDocument()
       );
       const product1 = screen.getByTestId('product-p1');
+      await waitFor(() =>
+        expect(
+          within(product1).getByText('장바구니에 추가')
+        ).toBeInTheDocument()
+      );
       const addToCartButtonsAtProduct1 =
         within(product1).getByText('장바구니에 추가');
 
