@@ -7,13 +7,18 @@ export const useStorageProducts = () => {
 
   // 스토리지 값 설정
   useEffect(() => {
-    const storageProducts = localStorage.getItem('products');
-    if (storageProducts) {
-      const data = JSON.parse(storageProducts);
-      setProducts(() => [...data]);
-    } else {
-      localStorage.setItem('products', JSON.stringify(initialProducts));
-      setProducts(() => [...initialProducts]);
+    try {
+      const storageProducts = localStorage.getItem('products');
+
+      if (storageProducts) {
+        const data = JSON.parse(storageProducts);
+        setProducts(() => [...data]);
+      } else {
+        localStorage.setItem('products', JSON.stringify(initialProducts));
+        setProducts(() => [...initialProducts]);
+      }
+    } catch (e) {
+      throw new Error('Error accessing localStorage' + e);
     }
   }, []);
 

@@ -1,11 +1,16 @@
 import { CartItem, Coupon, Grade, Product } from '../../types';
 import { initCoupon } from '@refactor/data/coupon';
 import {
-  updateCartItemQuantity,
   calculateCartTotal,
   removeCartItem,
   calculateCartTotalWithGrade,
 } from '@refactor/hooks/utils/cartUtils';
+import {
+  findProductIndexInCart,
+  increaseCartItemQty,
+  updateCartItemQuantity,
+  updateCartNewItem,
+} from '@refactor/service/cart/cart';
 import { useState } from 'react';
 
 export const useCart = () => {
@@ -13,23 +18,26 @@ export const useCart = () => {
   const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
 
   const addToCart = (newProduct: Product) => {
-    const findInCart = cart.find(({ product: { id } }) => id === newProduct.id);
+    const findIndex = findProductIndexInCart(cart, newProduct);
 
-    if (findInCart) {
-      setCart((prev) =>
-        updateCartItemQuantity(prev, newProduct.id, findInCart.quantity + 1)
-      );
+    const hasProductInCart = findIndex !== -1;
+    if (hasProductInCart) {
+      const updatedCartData = increaseCartItemQty(cart, newProduct.id);
+      setCart(updatedCartData);
     } else {
-      setCart((prev) => [...prev, { product: newProduct, quantity: 1 }]);
+      const updatedCartData = updateCartNewItem(cart, newProduct.id);
+      setCart(updatedCartData);
     }
   };
 
   const removeFromCart = (productId: string) => {
-    setCart((prev) => removeCartItem(prev, productId));
+    const removedCartItem = removeCartItem(cart, productId);
+    setCart(removedCartItem);
   };
 
   const updateQuantity = (productId: string, newQuantity: number) => {
-    setCart((prev) => updateCartItemQuantity(prev, productId, newQuantity));
+    const updateCart = updateCartItemQuantity(cart, productId, newQuantity);
+    setCart(updateCart);
   };
 
   const applyCoupon = (coupon: Coupon | null) => {

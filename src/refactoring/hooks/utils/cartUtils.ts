@@ -21,11 +21,14 @@ const memoizedGetMaxApplicableDiscount = (() => {
     const { discounts } = item.product;
     const { quantity } = item;
     let appliedDiscount = 0;
-    for (const discount of discounts) {
-      if (quantity >= discount.quantity) {
+
+    discounts.map((discount) => {
+      const isValidDiscountQty = quantity >= discount.quantity;
+      if (isValidDiscountQty) {
         appliedDiscount = Math.max(appliedDiscount, discount.rate);
       }
-    }
+    });
+
     cache.set(key, appliedDiscount);
     return appliedDiscount;
   };
