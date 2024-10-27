@@ -1,38 +1,23 @@
 import { useEffect, useState } from 'react';
 import { Product } from '../../../types.ts';
+import {
+  addProductApi,
+  fetchProducts,
+  updateProductApi,
+} from '@refactor/service/api/products.ts';
 
 export const useApiMockProduct = () => {
   const [products, setProducts] = useState<Product[]>(() => []);
   useEffect(() => {
-    fetch('/api/products')
-      .then((response) => response.json())
-      .then((data) => setProducts(data));
+    fetchProducts().then(setProducts);
   }, []);
 
   const updateProduct = (product: Product) => {
-    fetch('/api/update-product', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(product),
-    })
-      .then((response) => response.json())
-      .then((data) => setProducts(data));
+    updateProductApi(product).then(setProducts);
   };
 
   const addProduct = (product: Product) => {
-    fetch('/api/add-product', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(product),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setProducts(data);
-      });
+    addProductApi(product).then(setProducts);
   };
 
   const removeProduct = (id: string) => {

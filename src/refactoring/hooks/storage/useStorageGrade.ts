@@ -1,7 +1,15 @@
-import { LOCAL_STORAGE_GRADE_KEY } from '@refactor/constants/grade';
+import {
+  LOCAL_STORAGE_GRADE_KEY,
+  LOCAL_STORAGE_MEMBER_GRADE_KEY,
+} from '@refactor/constants/grade';
 import { initialGrades } from '@refactor/data/grade';
+import {
+  getLocalStorageItem,
+  setLocalStorageItem,
+} from '@refactor/service/localStorage/storageService';
 import { useEffect, useState } from 'react';
 import { Grade } from 'src/types';
+import { findIndexById } from '../utils/findIndexById';
 
 export const useStorageGrade = () => {
   const [gradeList, setGradeList] = useState<Grade[]>([]);
@@ -10,34 +18,27 @@ export const useStorageGrade = () => {
   // 스토리지 값 설정
   useEffect(() => {
     try {
-      const storageGradeList = localStorage.getItem(LOCAL_STORAGE_GRADE_KEY);
-      if (storageGradeList) {
-        setGradeList(JSON.parse(storageGradeList));
-      } else {
-        localStorage.setItem(
-          LOCAL_STORAGE_GRADE_KEY,
-          JSON.stringify(initialGrades)
-        );
-        setGradeList([...initialGrades]);
-      }
+      const storageGradeList = getLocalStorageItem(
+        LOCAL_STORAGE_GRADE_KEY,
+        initialGrades
+      );
+      setGradeList(storageGradeList);
 
-      const storageMemberGrade = localStorage.getItem('memberGrade');
-      if (storageMemberGrade) {
-        setGradeId(JSON.parse(storageMemberGrade));
-      } else {
-        localStorage.setItem('memberGrade', JSON.stringify(0));
-        setGradeId(0);
-      }
+      const storageMemberGrade = getLocalStorageItem(
+        LOCAL_STORAGE_MEMBER_GRADE_KEY,
+        0
+      );
+      setGradeId(storageMemberGrade);
     } catch (e) {
       throw new Error('Error accessing localStorage' + e);
     }
   }, []);
 
   const updateGrade = (memberId: number) => {
-    const gradeIndex = gradeList.findIndex(({ id }) => id === memberId);
+    const gradeIndex = findIndexById(gradeList, memberId);
     if (gradeIndex === -1) return;
 
-    localStorage.setItem('memberGrade', JSON.stringify(gradeIndex));
+    setLocalStorageItem(LOCAL_STORAGE_MEMBER_GRADE_KEY, gradeIndex);
     setGradeId(gradeIndex);
   };
 

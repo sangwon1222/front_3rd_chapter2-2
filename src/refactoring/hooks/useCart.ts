@@ -1,10 +1,9 @@
-import { CartItem, Coupon, Grade, Product } from '../../types';
+import { CartItem, Coupon, Product } from '../../types';
 import { initCoupon } from '@refactor/data/coupon';
 import {
+  updateCartItemQuantity,
   calculateCartTotal,
   removeCartItem,
-  calculateCartTotalWithGrade,
-  updateCartItemQuantity,
 } from '@refactor/hooks/utils/cartUtils';
 import {
   findProductInCartByIndex,
@@ -22,22 +21,18 @@ export const useCart = () => {
     const hasProductInCart = findIndex !== -1;
 
     if (hasProductInCart) {
-      const updatedCartData = increaseCartItemQty(cart, newProduct.id);
-      setCart(updatedCartData);
+      setCart((prev) => increaseCartItemQty(prev, newProduct.id));
     } else {
-      const updatedCartData = updateCartNewItem(cart, newProduct);
-      setCart(updatedCartData);
+      setCart((prev) => updateCartNewItem(prev, newProduct));
     }
   };
 
   const removeFromCart = (productId: string) => {
-    const removedCartItem = removeCartItem(cart, productId);
-    setCart(removedCartItem);
+    setCart((prev) => removeCartItem(prev, productId));
   };
 
   const updateQuantity = (productId: string, newQuantity: number) => {
-    const updateCart = updateCartItemQuantity(cart, productId, newQuantity);
-    setCart(updateCart);
+    setCart((prev) => updateCartItemQuantity(prev, productId, newQuantity));
   };
 
   const applyCoupon = (coupon: Coupon | null) => {
@@ -45,13 +40,8 @@ export const useCart = () => {
     else setSelectedCoupon({ ...initCoupon });
   };
 
-  const calculateTotal = () => {
-    return calculateCartTotal(cart, selectedCoupon);
-  };
-
-  const calculateTotalWithGrade = (grade: Grade) => {
-    return calculateCartTotalWithGrade(cart, grade);
-  };
+  // basic.test 코드 때문에 hook으로 안옮겼음
+  const calculateTotal = () => calculateCartTotal(cart, selectedCoupon);
 
   return {
     cart,
@@ -61,6 +51,5 @@ export const useCart = () => {
     applyCoupon,
     calculateTotal,
     selectedCoupon,
-    calculateTotalWithGrade,
   };
 };

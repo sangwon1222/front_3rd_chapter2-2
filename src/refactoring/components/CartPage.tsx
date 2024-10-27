@@ -25,7 +25,6 @@ export const CartPage: React.FC<PropsType> = ({
     updateQuantity,
     applyCoupon,
     calculateTotal,
-    calculateTotalWithGrade,
     selectedCoupon,
   } = useCart();
 
@@ -45,7 +44,6 @@ export const CartPage: React.FC<PropsType> = ({
           applyCoupon={applyCoupon}
           selectedCoupon={selectedCoupon}
           calculateTotal={calculateTotal}
-          calculateTotalWithGrade={calculateTotalWithGrade}
           grade={grade}
           gradeList={gradeList}
           updateGrade={updateGrade}

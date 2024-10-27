@@ -6,8 +6,8 @@ export const useStock = (initialData: number) => {
   const [stock, setStock] = useState(initialData);
 
   const updateStock = (cart: CartItem[], product: Product) => {
-    const stock = getRemainingStock(cart, product);
-    setStock(stock);
+    const updatedStock = getRemainingStock(cart, product);
+    setStock(updatedStock);
   };
 
   return { stock, updateStock };

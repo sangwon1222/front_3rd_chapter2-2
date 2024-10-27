@@ -1,10 +1,11 @@
+import { GradeComboBox } from '@refactor/components/molecules/cart/GradeComboBox';
+import { calculateCartTotalWithGrade } from '@refactor/hooks/utils/cartUtils';
 import { formatCouponOptions } from '@refactor/hooks/utils/couponUtil';
 import { ApplyCouponLabel } from '@atoms/coupon/ApplyCouponLabel';
 import { ProductsInCart } from '@templates/cart/ProductsInCart';
 import { CartTotal } from '@atoms/cart/CartTotal';
 import { CartItem, Coupon, Grade } from 'src/types';
 import { ComboBox } from '@atoms/ComboBox';
-import { GradeComboBox } from '@refactor/components/molecules/cart/GradeComboBox';
 
 type PropsType = {
   coupons: Coupon[];
@@ -14,11 +15,6 @@ type PropsType = {
   applyCoupon: (coupon: Coupon | null) => void;
   selectedCoupon: Coupon | null;
   calculateTotal: () => {
-    totalBeforeDiscount: number;
-    totalAfterDiscount: number;
-    totalDiscount: number;
-  };
-  calculateTotalWithGrade: (grade: Grade) => {
     totalBeforeDiscount: number;
     totalAfterDiscount: number;
     totalDiscount: number;
@@ -36,13 +32,12 @@ export const CartHistory: React.FC<PropsType> = ({
   applyCoupon,
   selectedCoupon,
   calculateTotal,
-  calculateTotalWithGrade,
   gradeList = null,
   grade = null,
   updateGrade = null,
 }) => {
   const { totalBeforeDiscount, totalAfterDiscount, totalDiscount } = grade
-    ? calculateTotalWithGrade(grade!)
+    ? calculateCartTotalWithGrade(cart, grade!)
     : calculateTotal();
 
   const couponOptions = formatCouponOptions(coupons);

@@ -1,42 +1,25 @@
 import { Coupon } from '../../../types.ts';
 import { useEffect, useState } from 'react';
 import { debounce } from '../utils/util.ts';
+import {
+  addCouponApi,
+  fetchCoupons,
+  removeCouponApi,
+} from '@refactor/service/api/coupon.ts';
 
 export const useApiMockCoupon = () => {
   const [coupons, setCoupons] = useState<Coupon[]>(() => []);
 
   useEffect(() => {
-    fetch('/api/coupons')
-      .then((response) => response.json())
-      .then((data) => setCoupons(data));
+    fetchCoupons().then(setCoupons);
   }, []);
 
   const addCoupon = debounce((newCoupon: Coupon) => {
-    fetch('/api/add-coupon', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newCoupon),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setCoupons(() => data);
-      });
+    addCouponApi(newCoupon).then(setCoupons);
   }, 100);
 
   const removeCoupon = debounce((newCoupon: Coupon) => {
-    fetch('/api/remove-coupon', {
-      method: 'delete',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newCoupon),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setCoupons(() => data);
-      });
+    removeCouponApi(newCoupon).then(setCoupons);
   }, 100);
 
   return { coupons, addCoupon, removeCoupon };
