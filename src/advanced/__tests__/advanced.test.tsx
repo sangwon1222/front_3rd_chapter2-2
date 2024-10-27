@@ -647,29 +647,33 @@ describe('advanced > ', () => {
 
       test('상품 정보를 표시한다.', async () => {
         // Given 렌더링이 되면
-        await waitFor(() =>
-          expect(screen.getByTestId('product-p1')).toBeInTheDocument()
-        );
+        await waitFor(() => {
+          expect(screen.getByTestId('product-p1')).toBeInTheDocument();
+          expect(screen.getByTestId('product-p2')).toBeInTheDocument();
+          expect(screen.getByTestId('product-p3')).toBeInTheDocument();
+        });
 
         // When: 상품들을 화면에서 조회할 때
-        const product1 = screen.getByTestId('product-p1');
-        const product2 = screen.getByTestId('product-p2');
-        const product3 = screen.getByTestId('product-p3');
+        const product1 = await screen.findByTestId('product-p1');
+        const product2 = await screen.findByTestId('product-p2');
+        const product3 = await screen.findByTestId('product-p3');
 
         // Then: 각 상품의 이름, 가격, 재고 정보를 확인할 수 있다.
         expect(product1).toHaveTextContent('상품1');
         expect(product1).toHaveTextContent('10,000원');
         expect(product1).toHaveTextContent('재고: 20개');
+
         expect(product2).toHaveTextContent('상품2');
         expect(product2).toHaveTextContent('20,000원');
         expect(product2).toHaveTextContent('재고: 20개');
+
         expect(product3).toHaveTextContent('상품3');
         expect(product3).toHaveTextContent('30,000원');
         expect(product3).toHaveTextContent('재고: 20개');
       });
 
       test('할인 정보를 표시한다.', async () => {
-        // Given 렌더링이 되면
+        // Given 렌더링 됐을 때
         await waitFor(() =>
           expect(screen.getByTestId('product-p1')).toBeInTheDocument()
         );
@@ -679,7 +683,7 @@ describe('advanced > ', () => {
       });
 
       test('등급 할인', async () => {
-        // GIVEN: 렌더링이 되면
+        // Given 렌더링 됐을 때
         await waitFor(() =>
           expect(screen.getByTestId('product-p1')).toBeInTheDocument()
         );
