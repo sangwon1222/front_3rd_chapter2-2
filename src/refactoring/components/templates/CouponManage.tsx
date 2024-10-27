@@ -1,5 +1,5 @@
 import { CouponList } from '@molecules/coupon/CouponList';
-import { AddCoupon } from '@refactor/components/templates/admin/AddCoupon';
+import { AddCoupon } from '@templates/admin/AddCoupon';
 import { Coupon } from 'src/types';
 
 type PropsType = {

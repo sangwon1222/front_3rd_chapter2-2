@@ -1,5 +1,5 @@
 import { useProductForm } from '@refactor/hooks/useProductForm';
-import { DiscountList } from '@atoms/discount/DiscountList';
+import { DiscountList } from '@molecules/discount/DiscountList';
 import { UpdateItemForm } from './UpdateItemForm';
 import { useEffect, useState } from 'react';
 import { Product } from 'src/types';

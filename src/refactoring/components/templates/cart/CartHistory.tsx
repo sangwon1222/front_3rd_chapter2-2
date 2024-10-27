@@ -1,9 +1,9 @@
-import { GradeComboBox } from '@refactor/components/molecules/cart/GradeComboBox';
 import { calculateCartTotalWithGrade } from '@refactor/hooks/utils/cartUtils';
 import { formatCouponOptions } from '@refactor/hooks/utils/couponUtil';
-import { ApplyCouponLabel } from '@atoms/coupon/ApplyCouponLabel';
+import { ApplyCouponLabel } from '@molecules/coupon/ApplyCouponLabel';
 import { ProductsInCart } from '@templates/cart/ProductsInCart';
-import { CartTotal } from '@atoms/cart/CartTotal';
+import { GradeComboBox } from '@molecules/cart/GradeComboBox';
+import { CartTotal } from '@molecules/cart/CartTotal';
 import { CartItem, Coupon, Grade } from 'src/types';
 import { ComboBox } from '@atoms/ComboBox';
 

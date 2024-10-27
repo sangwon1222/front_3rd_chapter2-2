@@ -1,7 +1,7 @@
-import { StockNDiscount } from '@atoms/item/StockNDiscount';
+import { StockNDiscount } from '@molecules/item/StockNDiscount';
+import { useStock } from '@refactor/hooks/useStock';
 import { CartItem, Product } from 'src/types';
 import { useEffect } from 'react';
-import { useStock } from '@refactor/hooks/useStock';
 
 type PropsType = {
   item: Product;
