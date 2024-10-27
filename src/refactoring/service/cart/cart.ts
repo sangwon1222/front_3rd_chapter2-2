@@ -11,6 +11,7 @@ export const increaseCartItemQty = (cart: CartItem[], productId: string) => {
   cart.forEach(({ product, quantity }) => {
     const hasProduct = productId === product.id;
     if (hasProduct) cache.set(product.id, { product, quantity: quantity + 1 });
+    else cache.set(product.id, { product, quantity });
   });
 
   return Array.from(cache.values());
